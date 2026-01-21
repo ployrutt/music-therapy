@@ -1,0 +1,179 @@
+/* --- Layout หลัก ซ้าย-ขวา (เหมือนหน้า Form) --- */
+.container {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Kanit', sans-serif;
+}
+
+.main-content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+/* ส่วนของ Card หลัก */
+.content-wrapper {
+  background: #ffffff;
+  border-radius: 24px; /* ความโค้ง 24px เท่าหน้า Form */
+  border: 1.5px solid #e0e0e0; /* เส้นขอบ 1.5px เท่าหน้า Form */
+  padding: 40px;
+  max-width: 950px; /* ความกว้างเท่าหน้า Form */
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+/* ปุ่มย้อนกลับสไตล์ Cancel Button */
+.back-btn {
+  background-color: #fffdfd;
+  color: #777;
+  border: 1px solid #e5e5e5;
+  padding: 8px 25px;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-bottom: 25px;
+  transition: all 0.3s;
+}
+
+.back-btn:hover {
+  background-color: #eeeeee;
+}
+
+/* --- ส่วนหัว (Header) --- */
+.activity-header {
+  margin-bottom: 2rem;
+  border-left: 5px solid #0ec2a4; /* แถบเขียว Teal เหมือนหน้า Form */
+  padding-left: 15px;
+}
+
+.activity-title {
+  color: #333;
+  font-size: 1.6rem;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.update-date {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* Tags สไตล์ Badge */
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.badge {
+  padding: 5px 15px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background-color: #e6f7f4;
+  color: #0ec2a4;
+  border: 1px solid rgba(14, 194, 164, 0.1);
+}
+
+/* --- Grid จัดวางเนื้อหา --- */
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr; /* ปรับสัดส่วนให้ดูสมดุล */
+  gap: 25px;
+}
+
+/* --- การ์ดเนื้อหา (ถอดแบบสไตล์ Fieldset ในหน้า Form) --- */
+.info-card {
+  background-color: #f9fdfd; /* สีฟ้าอ่อนเดียวกับตอน Focus input */
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 25px;
+  border: 1.5px solid #e0f2f2; /* ขอบฟ้าอ่อน */
+}
+
+.info-card h3 {
+  color: #0ec2a4; /* สี Teal หลัก */
+  font-size: 1.05rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.info-card p, .process-text, .song-content {
+  color: #444;
+  line-height: 1.8;
+  font-size: 0.95rem;
+  white-space: pre-wrap;
+  
+}
+
+/* --- ส่วนของรูปภาพและสื่อ --- */
+.image-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.img-container {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1.5px solid #e0e0e0;
+  background: #ffffff;
+}
+
+.img-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ปรับ Activity Image 2 ให้เป็นระเบียบ */
+.media-column .image-stack .img-container:nth-child(2) {
+   border: 1px solid rgba(14, 194, 164, 0.1);
+ 
+  background-color: #fafafa;
+  padding: 10px;
+  text-align: center;
+}
+
+.media-column .image-stack .img-container:nth-child(2) img {
+  max-height: 220px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* --- ส่วนของ ข้อเสนอแนะ และ เพลง (ให้สีเหมือนกันทั้งหมด) --- */
+.suggestion-card, .music-card {
+  background-color: #f9fdfd;
+  border: 1px solid rgba(14, 194, 164, 0.1);
+
+  border-radius: 16px;
+  padding: 25px;
+  margin-top: 40px;
+}
+
+.suggestion-card h3, .music-card h3 {
+  color: #0ec2a4;
+  font-size: 1.05rem;
+  margin-bottom: 12px;
+}
+
+/* ปรับแต่ง Scrollbar ให้เหมือนหน้า Form */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0ec2a4;
+}

@@ -1,0 +1,79 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+
+  <div class="form-group">
+    <div class="login">
+      
+    </div>
+
+    <label for="email">อีเมล<span class="star">*</span></label>
+    <input
+      id="email"
+      type="email"
+      formControlName="email"
+      placeholder="example@email.com"
+    />
+
+    <div class="error" *ngIf="f.email.touched && f.email.errors">
+      <span *ngIf="f.email.errors['required']">
+        กรุณากรอกอีเมล
+      </span>
+      <span *ngIf="f.email.errors['email']">
+        รูปแบบอีเมลไม่ถูกต้อง
+      </span>
+    </div>
+  </div>
+
+  <!-- ===== Password ===== -->
+  <div class="form-group">
+    <label for="password">รหัสผ่าน<span class="star">*</span></label>
+
+    <div class="password-wrapper">
+      <input
+        id="password"
+        [type]="hidePassword ? 'password' : 'text'"
+        formControlName="password"
+        placeholder="อย่างน้อย 8 ตัวอักษร"
+      />
+
+      <i
+        class="fa-solid"
+        [ngClass]="hidePassword ? 'fa-eye-slash' : 'fa-eye'"
+        (click)="togglePassword()"
+        title="แสดง / ซ่อนรหัสผ่าน"
+      ></i>
+    </div>
+
+    <div class="error" *ngIf="f.password.touched && f.password.errors">
+      <span *ngIf="f.password.errors['required']">
+        กรุณากรอกรหัสผ่าน
+      </span>
+      <span *ngIf="f.password.errors['minlength']">
+        รหัสผ่านต้องมากกว่า 8 ตัวอักษร
+      </span>
+    </div>
+  </div>
+
+  <!-- ===== Backend / Custom Error ===== -->
+  <div class="error center" *ngIf="submitError">
+    {{ submitError }}
+  </div>
+
+  <!-- ===== Forgot password ===== -->
+  <div class="link right">
+    <a routerLink="/forgot-password">ลืมรหัสผ่าน?</a>
+  </div>
+
+  <!-- ===== Submit ===== -->
+  <button type="submit" class="btn-login">
+    เข้าสู่ระบบ
+  </button>
+
+  <!-- ===== Register ===== -->
+  <div class="link center">
+    ยังไม่มีบัญชี?
+    <a routerLink="/register">สมัครสมาชิก</a>
+  </div>
+
+</form>
+
+

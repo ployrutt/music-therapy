@@ -1,0 +1,34 @@
+<div class="navbar">
+  <div class="logo">
+    <p>Music Therapy</p>
+  </div>
+  <nav class="menu">
+    <ul>
+      <li>
+        <a routerLink="/admin/dashboard" routerLinkActive="active">
+          <i class="fa-solid fa-chart-line"></i> แดชบอร์ด
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/activity-list" routerLinkActive="active">
+          <i class="fa-solid fa-list"></i> กิจกรรมทั้งหมด
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/member-list" routerLinkActive="active">
+          <i class="fa-solid fa-users"></i>สมาชิกทั้งหมด
+        </a>
+      </li>
+       <li>
+        <a routerLink="/activity" routerLinkActive="active">
+          <i class="fa-solid fa-globe"></i> เว็บสาธารณะ
+        </a>
+      </li>
+      <li>
+        <a (click)="onLogout($event)" style="cursor: pointer">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> ออกจากระบบ
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>

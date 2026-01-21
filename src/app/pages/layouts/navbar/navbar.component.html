@@ -1,0 +1,80 @@
+<header>
+  <div class="navbar-content">
+    <p class="logo">Music Therapy</p>
+
+    <nav class="nav-links">
+      <!-- <a routerLink="/home" routerLinkActive="active-nav-item" class="nav-item">หน้าหลัก</a> -->
+      <a
+        routerLink="/activity"
+        routerLinkActive="active-nav-item"
+        class="nav-item"
+        >หน้าหลัก</a
+      >
+      <a
+        routerLink="/research"
+        routerLinkActive="active-nav-item"
+        class="nav-item"
+        >งานวิจัย</a
+      >
+      <a
+        routerLink="/about-us"
+        routerLinkActive="active-nav-item"
+        class="nav-item"
+        >เกี่ยวกับเรา</a
+      >
+    </nav>
+
+    <nav class="button">
+      <ng-container *ngIf="!authService.isLoggedIn()">
+        <a routerLink="/login" class="login-btn">เข้าสู่ระบบ</a>
+        <a routerLink="/register" class="register-btn">สมัครสมาชิก</a>
+      </ng-container>
+
+      <ng-container *ngIf="authService.isLoggedIn()">
+        <div class="profile-wrapper">
+          <img
+            *ngIf="user && user.profile"
+            class="profile-img"
+            [src]="user.profile"
+            alt="profile"
+            (click)="toggleDropdown()"
+          />
+
+          <div
+            *ngIf="!user || !user.profile"
+            class="profile-icon"
+            (click)="toggleDropdown()"
+          >
+            <i class="fa-solid fa-user"></i>
+          </div>
+
+          <div class="dropdown" *ngIf="isDropdownOpen">
+            <button
+              *ngIf="user && user.role_name === 'admin'"
+              (click)="goToAdmin()"
+            >
+              <span class="icon"><i class="fa-solid fa-gear"></i></span>
+              จัดการระบบ
+            </button>
+
+            <button (click)="goToProfile()">
+              <span class="icon"><i class="fa-solid fa-circle-user"></i></span>
+              ข้อมูลส่วนตัว
+            </button>
+
+            <button class="logout" (click)="logout()">
+              <span class="icon"
+                ><i class="fa-solid fa-arrow-right-from-bracket"></i
+              ></span>
+              ออกจากระบบ
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </nav>
+  </div>
+</header>
+
+<main class="content">
+  <router-outlet></router-outlet>
+</main>

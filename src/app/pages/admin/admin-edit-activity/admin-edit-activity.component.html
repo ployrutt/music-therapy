@@ -1,0 +1,187 @@
+<div class="container">
+  <div class="left">
+    <app-admin-navbar></app-admin-navbar>
+  </div>
+
+  <div class="right">
+    <div class="form-card">
+      <header class="form-header">
+        <h1>แก้ไขกิจกรรม</h1>
+      </header>
+
+      <form
+        [formGroup]="activityForm"
+        (ngSubmit)="onSubmit()"
+        class="form-content"
+      >
+        <fieldset>
+          <legend>ข้อมูลพื้นฐาน</legend>
+          <div class="form-group">
+            <label>ชื่อกิจกรรม<span class="star">*</span></label>
+            <input
+              type="text"
+              formControlName="title"
+              [class.error-border]="isInvalid('title')"
+            />
+            <small class="error-msg" *ngIf="isInvalid('title')"
+              >กรุณากรอกชื่อกิจกรรม</small
+            >
+          </div>
+          <div class="grid-row">
+            <div class="form-group">
+              <label>รูปหน้าปกกิจกรรม (เลือกไฟล์)</label>
+              <input
+                type="file"
+                (change)="onFileSelected($event, 'cover_image')"
+                accept="image/*"
+                class="file-input"
+              />
+              <div
+                class="img-preview-container"
+                *ngIf="previews['cover_image']"
+              >
+                <img [src]="previews['cover_image']" class="img-preview-main" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label
+                >รายละเอียดเป้าหมายกิจกรรม<span class="star">*</span></label
+              >
+              <input
+                type="text"
+                formControlName="goal_description"
+                [class.error-border]="isInvalid('goal_description')"
+              />
+              <small class="error-msg" *ngIf="isInvalid('goal_description')"
+                >กรุณากรอกรายละเอียดเป้าหมายกิจกรรม</small
+              >
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>เป้าหมายกิจกรรม</legend>
+          <div class="master-grid">
+            <div *ngFor="let goal of masterGoals" class="goal-group">
+              <h4>{{ goal.goal_name }}</h4>
+              <div class="scroll-area">
+                <label *ngFor="let sub of goal.sub_goals" class="check-label">
+                  <input
+                    type="checkbox"
+                    [checked]="isSubGoalSelected(sub.sub_goal_id)"
+                    (change)="onSubGoalChange($event, sub)"
+                  />
+                  {{ sub.sub_goal_name }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>หมวดหมู่กิจกรรม</legend>
+          <div class="master-grid">
+            <div *ngFor="let cat of masterCategories" class="goal-group">
+              <h4>{{ cat.category_name }}</h4>
+              <div class="scroll-area">
+                <label
+                  *ngFor="let subcat of cat.sub_categories"
+                  class="check-label"
+                >
+                  <input
+                    type="checkbox"
+                    [checked]="isSubCategorySelected(subcat.sub_category_id)"
+                    (change)="onSubCategoryChange($event, subcat)"
+                  />
+                  {{ subcat.sub_category_name }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>รายละเอียดกิจกรรม</legend>
+          <div class="form-group">
+            <label>อุปกรณ์<span class="star">*</span></label>
+            <textarea
+              formControlName="equipment"
+              rows="2"
+              [class.error-border]="isInvalid('equipment')"
+            ></textarea>
+            <small class="error-msg" *ngIf="isInvalid('equipment')"
+              >กรุณาระบุอุปกรณ์</small
+            >
+          </div>
+          <div class="form-group">
+            <label>กระบวนการทำกิจกรรม<span class="star">*</span></label>
+            <textarea
+              formControlName="process"
+              rows="4"
+              [class.error-border]="isInvalid('process')"
+            ></textarea>
+            <small class="error-msg" *ngIf="isInvalid('process')"
+              >กรุณาระบุกระบวนการทำกิจกรรม</small
+            >
+          </div>
+          <div class="grid-row">
+            <div class="form-group">
+              <label>พฤติกรรมพึงสังเกต<span class="star">*</span></label>
+              <textarea
+                formControlName="observable_behavior"
+                rows="3"
+                [class.error-border]="isInvalid('observable_behavior')"
+              ></textarea>
+              <small class="error-msg" *ngIf="isInvalid('observable_behavior')"
+                >กรุณาระบุพฤติกรรมพึงสังเกต</small
+              >
+            </div>
+            <div class="form-group">
+              <label>ข้อเสนอแนะเพิ่มเติม<span class="star">*</span></label>
+              <textarea
+                formControlName="suggestion"
+                rows="3"
+                [class.error-border]="isInvalid('suggestion')"
+              ></textarea>
+              <small class="error-msg" *ngIf="isInvalid('suggestion')"
+                >กรุณาระบุข้อเสนอแนะเพิ่มเติม</small
+              >
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>สื่อและรูปภาพประกอบ</legend>
+          <div class="grid-row">
+            <div class="form-group">
+              <label>ตัวอย่างสัญญาณดนตรีหรือเพลง</label>
+              <textarea formControlName="song" rows="2"></textarea>
+            </div>
+            <div class="form-group">
+              <label>รูปภาพประกอบ (เพลง)</label>
+              <input
+                type="file"
+                (change)="onFileSelected($event, 'song_image')"
+                accept="image/*"
+              />
+              <img
+                *ngIf="previews['song_image']"
+                [src]="previews['song_image']"
+                class="img-preview-sm"
+              />
+            </div>
+          </div>
+     
+      
+        </fieldset>
+
+        <div class="form-footer">
+          <button type="button" class="cancel-btn" (click)="onCancel()">
+            ยกเลิก
+          </button>
+          <button type="submit" class="save-btn">บันทึก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

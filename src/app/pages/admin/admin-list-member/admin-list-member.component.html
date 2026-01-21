@@ -1,0 +1,56 @@
+<div class="admin-list-container">
+  <div class="left">
+    <app-admin-navbar></app-admin-navbar>
+  </div>
+
+  <div class="right">
+    <div class="list-card">
+      <div class="table-responsive">
+        
+        <div class="table-header-wrapper">
+          <p class="title-text">สมาชิกทั้งหมด ({{ users.length }})</p>
+        </div>
+
+        <table class="activity-table">
+          <thead>
+            <tr>
+              <th>ชื่อจริง</th>
+              <th>นามสกุล</th>
+              <th>อีเมล</th>
+              <th>เบอร์โทรศัพท์</th>
+              <th>วันเกิด</th>
+              <th>อายุ</th>
+              <th>บทบาท</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td>{{ user.first_name }}</td>
+              <td>{{ user.last_name }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.phone_number }}</td>
+              <td>{{ user.date_of_birth }}</td>
+              <td>{{ calculateAge(user.date_of_birth) }} ปี</td>
+              <td>
+                <span [ngClass]="{
+                  'badge-admin': user.role_name === 'admin',
+                  'badge-member': user.role_name === 'member'
+                }">
+                  {{ user.role_name }}
+                </span>
+              </td>
+         
+            </tr>
+            
+            <!-- <tr *ngIf="users.length === 0">
+              <td colspan="6" class="empty-state" style="text-align: center; padding: 30px;">
+                <i class="fa-solid fa-users-slash"></i>
+                <p>ไม่พบข้อมูลสมาชิกในระบบ</p>
+              </td>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

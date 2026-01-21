@@ -1,0 +1,57 @@
+<div class="admin-list-container">
+  <div class="left">
+    <app-admin-navbar></app-admin-navbar>
+  </div>
+
+  <div class="right">
+    <div class="list-card">
+      <div class="table-responsive">
+        
+        <div class="table-header-wrapper">
+          <p class="title-text">กิจกรรมทั้งหมด</p>
+          <div class="create-btn-area">
+            <button class="primary-pill-btn" routerLink="/admin/create-activity">
+              <i class="fa-solid fa-circle-plus"></i>
+              สร้างกิจกรรม
+            </button>
+          </div>
+        </div>
+
+        <table class="activity-table">
+          <thead>
+            <tr>
+              <th>ชื่อกิจกรรม</th>
+              <th>รายละเอียดเป้าหมายกิจกรรม</th>
+              <th>อัปเดตล่าสุด</th>
+              <th class="text-center">จัดการ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let activity of activities">
+              <td class="activity-title">{{ activity.title }}</td>
+              <td class="activity-goal">{{ activity.goal_description || "-" }}</td>
+              <td class="activity-date">
+                {{ activity.updated_at | date : "dd/MM/yyyy HH:mm" }} น.
+              </td>
+              <td class="action-buttons">
+                <button class="edit-btn" (click)="onEdit(activity.activity_id)" title="แก้ไข">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button class="delete-btn" (click)="onDelete(activity.activity_id)" title="ลบ">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+            
+            <tr *ngIf="activities.length === 0">
+              <!-- <td colspan="4" class="empty-state">
+                <i class="fa-solid fa-folder-open"></i>
+                <p>ไม่พบข้อมูลกิจกรรมในระบบ</p>
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

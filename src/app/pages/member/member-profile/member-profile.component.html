@@ -1,0 +1,49 @@
+<div class="profile-container">
+  <div class="profile-section">
+    <div class="image-wrapper">
+      <img *ngIf="profileImagePreview || profileImageUrl"
+           [src]="profileImagePreview || profileImageUrl" 
+           alt="Profile" class="profile-img">
+
+      <div *ngIf="!profileImagePreview && !profileImageUrl" class="profile-placeholder">
+        <i class="fa-regular fa-circle-user"></i>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <input type="file" #fileInput accept="image/*" (change)="onFileSelected($event)" style="display: none">
+      
+      <button type="button" class="btn btn-upload" (click)="fileInput.click()">
+        อัปโหลดรูปโปรไฟล์
+      </button>
+
+      <button type="button" class="btn btn-delete" 
+              (click)="onRemoveImage()" 
+              *ngIf="profileImageUrl || profileImagePreview">
+        ลบรูป
+      </button>
+    </div>
+  </div>
+
+  <div class="form-container">
+    <form [formGroup]="profileForm">
+      <div class="form-group">
+        <label>ชื่อจริง</label>
+        <input type="text" formControlName="first_name" placeholder="กรอกชื่อจริง">
+      </div>
+      <div class="form-group">
+        <label>นามสกุล</label>
+        <input type="text" formControlName="last_name" placeholder="กรอกนามสกุล">
+      </div>
+      <div class="form-group">
+        <label>เบอร์โทร</label>
+        <input type="tel" formControlName="phone_number" placeholder="กรอกเบอร์โทร">
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-cancel" type="button" (click)="onCancel()">ยกเลิก</button>
+        <button class="btn btn-save" type="button" (click)="onSave()">บันทึกข้อมูล</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,71 @@
+<div class="register-container">
+  <h2>สมัครสมาชิก</h2>
+
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>ชื่อ<span class="star">*</span></label>
+      <input
+        type="text"
+        [(ngModel)]="registerData.first_name"
+        name="first_name"
+        placeholder="กรุณากรอกชื่อ"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label>นามสกุล<span class="star">*</span></label>
+      <input
+        type="text"
+        [(ngModel)]="registerData.last_name"
+        name="last_name"
+        placeholder="กรุณากรอกนามสกุล"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label>อีเมล<span class="star">*</span></label>
+      <input
+        type="email"
+        [(ngModel)]="registerData.email"
+        name="email"
+        placeholder="example@email.com"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label>รหัสผ่าน<span class="star">*</span></label>
+      <input
+        type="password"
+        [(ngModel)]="registerData.password"
+        name="password"
+        placeholder="อย่างน้อย 8 ตัวอักษร"
+        required
+        minlength="8"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>เบอร์โทรศัพท์<span class="star">*</span></label>
+      <input
+        type="text"
+        [(ngModel)]="registerData.phone_number"
+        name="phone_number"
+        placeholder="08X-XXX-XXXX"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>วันเกิด<span class="star">*</span></label>
+      <input
+        type="date"
+        [(ngModel)]="registerData.date_of_birth"
+        name="date_of_birth"
+      />
+    </div>
+
+    <button type="submit" class="btn-submit">สมัครสมาชิก</button>
+  </form>
+</div>

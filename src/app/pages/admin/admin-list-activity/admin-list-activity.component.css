@@ -1,0 +1,179 @@
+
+.admin-list-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.left {
+  width: 260px;
+  background: #ffffff;
+  border-right: 1.5px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.right {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+.list-card {
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1.5px solid #e0e0e0;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.table-header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.title-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  border-left: 5px solid #0ec2a4;
+  padding-left: 15px;
+  margin: 0;
+}
+
+
+.primary-pill-btn {
+  background-color: #0ec2a4;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 500;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(14, 194, 164, 0.2);
+}
+
+.primary-pill-btn:hover {
+  background-color: #0bb095;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(14, 194, 164, 0.3);
+}
+
+
+.activity-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.activity-table th {
+  padding: 18px 15px;
+  background-color: #f9fafb;
+  color: #666;
+  font-weight: 500;
+  border-bottom: 2px solid #eee;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.activity-table td {
+  padding: 18px 15px;
+  border-bottom: 1px solid #eee;
+  color: #444;
+  font-size: 0.95rem;
+  vertical-align: middle;
+}
+
+.activity-title {
+  font-weight: 500;
+  color: #0ec2a4;
+  width: 25%;
+}
+
+.activity-goal {
+  color: #666;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.edit-btn, .delete-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.edit-btn {
+  background-color: rgba(14, 194, 164, 0.1);
+  color: #0ec2a4;
+}
+
+.edit-btn:hover {
+  background-color: #0ec2a4;
+  color: white;
+}
+
+.delete-btn {
+  background-color: rgba(247, 140, 186, 0.1);
+  color: red;
+}
+
+.delete-btn:hover {
+  background-color: red;
+  color: white;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px !important;
+  color: #999;
+}
+
+.empty-state i {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  display: block;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0ec2a4;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0bb095;
+}
+
+
+.right {
+  scrollbar-width: thin;
+  scrollbar-color: #0ec2a4 #f1f1f1;
+}

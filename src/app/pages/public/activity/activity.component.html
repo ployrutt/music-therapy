@@ -1,0 +1,99 @@
+<div class="page-container">
+  <header class="filter-section">
+    <div class="header-content">
+      <h1 class="main-title">กิจกรรมดนตรีบำบัด</h1>
+      <p class="sub-title">
+        ค้นหากิจกรรมดนตรีบำบัดที่มีการแบ่งประเภทกิจกรรม
+        จากเป้าหมายของกิจกรรมและลักษณะของกิจกรรม
+      </p>
+    </div>
+
+    <div class="search-box">
+      <div class="search-inner">
+        <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <input
+          type="text"
+          placeholder="ค้นหากิจกรรม"
+          (input)="onSearch($event)"
+        />
+      </div>
+    </div>
+
+    <div class="category-container">
+      <div class="category-grid">
+        <button
+          *ngFor="let cat of categories"
+          class="cat-item"
+          [class.active]="selectedCategory === cat"
+          (click)="selectCategory(cat)"
+        >
+          {{ cat }}
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="content-section">
+    <div
+      class="activity-grid"
+      *ngIf="filteredActivities.length > 0; else noData"
+    >
+      <article
+        class="activity-card"
+        *ngFor="let activity of filteredActivities"
+      >
+        <div class="image-container">
+          <img
+            [src]="
+              activity.cover_image || 'https://via.placeholder.com/400x250'
+            "
+            alt="Activity Image"
+          />
+
+          <button
+            class="read-more-btn"
+            [routerLink]="['/activity', activity.activity_id]"
+          >
+            อ่านต่อ
+          </button>
+        </div>
+
+        <div class="card-details">
+          <h3 class="activity-name">{{ activity.title }}</h3>
+
+          <div class="info-block">
+            <p><strong>เป้าหมาย :</strong> {{ activity.goal_description }}</p>
+            <p><strong>อุปกรณ์ :</strong> {{ activity.equipment }}</p>
+          </div>
+
+          <div class="tag-list">
+            <span class="tag" *ngFor="let goal of activity.selected_sub_goals">
+              {{ goal.sub_goal_name }}
+            </span>
+            <span
+              class="tag"
+              *ngFor="let subcat of activity.selected_sub_categories"
+            >
+              {{ subcat.sub_category_name }}
+            </span>
+          </div>
+
+          <footer class="card-footer">
+            <span class="post-date">
+              อัปเดตเมื่อ: {{ activity.updated_at | date : "d MMMM yyyy" }}
+            </span>
+          </footer>
+        </div>
+      </article>
+    </div>
+
+    <ng-template #noData>
+      <div class="no-data-msg">
+        <p>ไม่พบกิจกรรมที่ตรงกับเงื่อนไขการค้นหา</p>
+        <button (click)="selectedCategory = 'ทั้งหมด'; applyFilters()">
+          ล้างการกรอง
+        </button>
+      </div>
+    </ng-template>
+  </main>
+</div>
