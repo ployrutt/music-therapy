@@ -3,7 +3,7 @@
     <p class="logo">Music Therapy</p>
 
     <nav class="nav-links">
-      <!-- <a routerLink="/home" routerLinkActive="active-nav-item" class="nav-item">หน้าหลัก</a> -->
+   
       <a
         routerLink="/activity"
         routerLinkActive="active-nav-item"
@@ -26,7 +26,7 @@
 
     <nav class="button">
       <ng-container *ngIf="!authService.isLoggedIn()">
-        <a routerLink="/login" class="login-btn">เข้าสู่ระบบ</a>
+        <a routerLink="/login"  routerLinkActive="active-nav-item" class="login-btn">เข้าสู่ระบบ</a>
         <a routerLink="/register" class="register-btn">สมัครสมาชิก</a>
       </ng-container>
 

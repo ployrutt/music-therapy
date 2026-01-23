@@ -5,7 +5,6 @@ import { memberGuard } from './guards/member.guard';
 
 import { NavbarComponent } from './pages/layouts/navbar/navbar.component';
 
-// import { HomeComponent } from './pages/public/home/home.component';
 import { LoginComponent } from './pages/public/login/login.component';
 import { RegisterComponent } from './pages/public/register/register.component';
 import { ActivityComponent } from './pages/public/activity/activity.component';
@@ -33,8 +32,7 @@ export const routes: Routes = [
     component: NavbarComponent,
     children: [
 
-      { path: '', component:ActivityComponent }, 
-      // { path: 'home', component: HomeComponent }, 
+      { path: '', component:ActivityComponent },  
       
       { path: 'activity', component: ActivityComponent },
       { path: 'activity/:id', component: ActivityDetailComponent },
