@@ -68,4 +68,17 @@ export class UserService {
   //     headers: this.getAuthHeaders(),
   //   });
   // }
+
+  // เพิ่มเข้าไปในคลาส UserService
+getReadHistory(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.API_URL}/read-history`, {
+    headers: this.getAuthHeaders(),
+  });
+}
+
+getFavorites(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.API_URL}/favorites`, {
+    headers: this.getAuthHeaders(),
+  });
+}
 }
