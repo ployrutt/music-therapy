@@ -8,7 +8,7 @@ import { catchError, of, forkJoin } from 'rxjs';
 @Component({
   selector: 'app-activity',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './activity.component.html',
   styleUrl: './activity.component.css',
 })
