@@ -1,11 +1,11 @@
 
-.page-container {
+.activity-page{
   max-width: 1440px;
   margin: 0 auto;
   padding: 0px 40px;
 }
 
-.filter-section {
+.header {
   text-align: center;
   margin-bottom: 40px;
 }

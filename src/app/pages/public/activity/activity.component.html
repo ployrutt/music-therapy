@@ -1,8 +1,6 @@
-<div class="page-container">
-  
+<div class="activity-page">
   <header class="filter-section">
-    
-    <div class="header-content">
+    <div class="header">
       <h1 class="main-title">กิจกรรมดนตรีบำบัด</h1>
       <p class="sub-title">
         ค้นหากิจกรรมดนตรีบำบัดตามเป้าหมายและลักษณะของกิจกรรม
@@ -52,7 +50,9 @@
             "
             alt="Activity Image"
           />
+
           <button
+            *ngIf="authService.isLoggedIn() && isMember()"
             class="fav-btn"
             [class.is-fav]="activity.is_favorite"
             (click)="toggleFavorite(activity); $event.stopPropagation()"
@@ -66,10 +66,7 @@
             ></i>
           </button>
 
-          <button
-            class="read-more-btn"
-            [routerLink]="['/activity', activity.activity_id]"
-          >
+          <button class="read-more-btn" (click)="onReadActivity(activity)">
             อ่านต่อ
           </button>
         </div>
