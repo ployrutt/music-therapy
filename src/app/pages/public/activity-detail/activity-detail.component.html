@@ -1,84 +1,29 @@
-<!-- <div class="container" *ngIf="activity">
-
-  <div class="main-content">
-    <div class="content-wrapper">
-      
-      <header class="activity-header">
-        <h1 class="activity-title">{{ activity.title }}</h1>
-        <p class="update-date">อัปเดตเมื่อวันที่ {{ activity.updated_at | date:'dd MMMM yyyy' }}</p>
-        
-        <div class="tag-row">
-          <span class="badge" *ngFor="let goal of activity.selected_sub_goals">
-            {{ goal.sub_goal_name }}
-          </span>
-          <span class="badge" *ngFor="let cat of activity.selected_sub_categories">
-            {{ cat.sub_category_name }}
-          </span>
-        </div>
-      </header>
-
-      <div class="detail-grid">
-        
-        <div class="info-column">
-          <section class="info-card sky-blue">
-            <h3>เป้าหมาย</h3>
-            <p>{{ activity.goal_description }}</p>
-          </section>
-
-          <section class="info-card sky-blue">
-            <h3>อุปกรณ์</h3>
-            <p>{{ activity.equipment }}</p>
-          </section>
-
-          <section class="info-card sky-blue">
-            <h3>กระบวนการดำเนินกิจกรรม</h3>
-            <div class="process-text">{{ activity.process }}</div>
-          </section>
-
-          <section class="info-card sky-blue">
-            <h3>พฤติกรรมที่พึงสังเกต</h3>
-            <p>{{ activity.observable_behavior }}</p>
-          </section>
-        </div>
-
-        <div class="media-column">
-          <div class="image-stack">
-            <div class="img-container">
-              <img [src]="activity.cover_image !== '0' ? activity.cover_image : 'assets/placeholder.jpg'" alt="Activity Image 1">
-            </div>
-            <div class="img-container">
-              <img [src]="activity.song_image !== '0' ? activity.song_image : 'assets/placeholder.jpg'" alt="Activity Image 2">
-            </div>
-          </div>
-
-          <section class="info-card sky-blue suggestion-card">
-            <h3>ข้อเสนอแนะเพิ่มเติม</h3>
-            <p>{{ activity.suggestion }}</p>
-          </section>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</div> -->
-
 <div class="container" *ngIf="activity">
   <div class="main-content">
-  
     <div class="content-wrapper">
 
-      <button class="back-btn" (click)="goBack()">ย้อนกลับ</button>
+        <button class="back-btn" (click)="goBack()">ย้อนกลับ</button>
+      
+       
+
 
       <header class="activity-header">
-        
         <h1 class="activity-title">{{ activity.title }}</h1>
-        <p class="update-date">อัปเดตเมื่อวันที่ {{ activity.updated_at | date:'dd MMMM yyyy' }}</p>
-        
+        <p class="update-date">
+          อัปเดตเมื่อวันที่ {{ activity.updated_at | date: "dd MMMM yyyy" }}
+        </p>
+
         <div class="tag-row">
-          <span class="badge goal-tag" *ngFor="let goal of activity.selected_sub_goals">
+          <span
+            class="badge goal-tag"
+            *ngFor="let goal of activity.selected_sub_goals"
+          >
             {{ goal.sub_goal_name }}
           </span>
-          <span class="badge cat-tag" *ngFor="let cat of activity.selected_sub_categories">
+          <span
+            class="badge cat-tag"
+            *ngFor="let cat of activity.selected_sub_categories"
+          >
             {{ cat.sub_category_name }}
           </span>
         </div>
@@ -98,7 +43,9 @@
 
           <section class="info-card sky-blue">
             <h3>กระบวนการดำเนินกิจกรรม</h3>
-            <div class="process-text" style="white-space: pre-wrap;">{{ activity.process }}</div>
+            <div class="process-text" style="white-space: pre-wrap">
+              {{ activity.process }}
+            </div>
           </section>
 
           <section class="info-card sky-blue">
@@ -110,13 +57,21 @@
         <div class="media-column">
           <div class="image-stack">
             <div class="img-container">
-              
-              <img [src]="isValidImage(activity.cover_image) ? activity.cover_image : 'assets/placeholder.jpg'" alt="Cover Image">
+              <img
+                [src]="
+                  isValidImage(activity.cover_image)
+                    ? activity.cover_image
+                    : 'assets/placeholder.jpg'
+                "
+                alt="Cover Image"
+              />
             </div>
-            
-            <div class="img-container" *ngIf="activity.song_image && activity.song_image !== '0'">
-              
-              <img [src]="activity.song_image" alt="Song/Support Image">
+
+            <div
+              class="img-container"
+              *ngIf="activity.song_image && activity.song_image !== '0'"
+            >
+              <img [src]="activity.song_image" alt="Song/Support Image" />
             </div>
           </div>
 
@@ -131,8 +86,6 @@
           </section>
         </div>
       </div>
-       
     </div>
-    
   </div>
 </div>

@@ -1,16 +1,19 @@
 <div class="page-container">
+  
   <header class="filter-section">
+    
     <div class="header-content">
       <h1 class="main-title">กิจกรรมดนตรีบำบัด</h1>
       <p class="sub-title">
-        ค้นหากิจกรรมดนตรีบำบัดที่มีการแบ่งประเภทกิจกรรม
-        จากเป้าหมายของกิจกรรมและลักษณะของกิจกรรม
+        ค้นหากิจกรรมดนตรีบำบัดตามเป้าหมายและลักษณะของกิจกรรม
       </p>
     </div>
 
     <div class="search-box">
       <div class="search-inner">
-        <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <span class="search-icon"
+          ><i class="fa-solid fa-magnifying-glass"></i
+        ></span>
         <input
           type="text"
           placeholder="ค้นหากิจกรรม"
@@ -49,6 +52,19 @@
             "
             alt="Activity Image"
           />
+          <button
+            class="fav-btn"
+            [class.is-fav]="activity.is_favorite"
+            (click)="toggleFavorite(activity); $event.stopPropagation()"
+          >
+            <i
+              [class]="
+                activity.is_favorite
+                  ? 'fa-solid fa-heart'
+                  : 'fa-regular fa-heart'
+              "
+            ></i>
+          </button>
 
           <button
             class="read-more-btn"
@@ -80,7 +96,7 @@
 
           <footer class="card-footer">
             <span class="post-date">
-              อัปเดตเมื่อ: {{ activity.updated_at | date : "d MMMM yyyy" }}
+              อัปเดตเมื่อ: {{ activity.updated_at | date: "d MMMM yyyy" }}
             </span>
           </footer>
         </div>

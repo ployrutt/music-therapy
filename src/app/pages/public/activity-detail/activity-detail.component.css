@@ -177,3 +177,8 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #0ec2a4;
 }
+
+.image-container {
+  position: relative; /* เพื่อให้ปุ่ม fav-btn เทียบตำแหน่งกับ container นี้ */
+}
+
