@@ -1,4 +1,3 @@
-
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -18,7 +17,7 @@ export class UserService {
       Authorization: `Bearer ${token}`,
     });
   }
-    getProfile(): Observable<any> {
+  getProfile(): Observable<any> {
     return this.http.get<any>(`${this.API_URL}/profile`, {
       headers: this.getAuthHeaders(),
     });
@@ -48,37 +47,23 @@ export class UserService {
       headers: this.getAuthHeaders(),
     });
   }
-  //---------------------------
-  // ส่วนของ Admin (จัดการสมาชิก)
-  //---------------------------
-  // getProfile(): Observable<any> {
-  //   return this.http.get<any>(`${this.API_URL}/profile`, {
-  //     headers: this.getAuthHeaders(),
-  //   });
-  // }
 
-  // updateProfile(data: any): Observable<any> {
-  //   return this.http.put<any>(`${this.API_URL}/profile`, data, {
-  //     headers: this.getAuthHeaders(),
-  //   });
-  // }
+  getReadHistory(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.API_URL}/read-history`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
 
-  // deleteProfileImage(): Observable<any> {
-  //   return this.http.delete<any>(`${this.API_URL}/profile/image`, {
-  //     headers: this.getAuthHeaders(),
-  //   });
-  // }
+  getFavorites(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.API_URL}/favorites`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
 
-  // เพิ่มเข้าไปในคลาส UserService
-getReadHistory(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.API_URL}/read-history`, {
-    headers: this.getAuthHeaders(),
-  });
-}
-
-getFavorites(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.API_URL}/favorites`, {
-    headers: this.getAuthHeaders(),
-  });
-}
+  // เพิ่มเข้าไปใน UserService
+// addMember(userData: any): Observable<any> {
+//   return this.http.post<any>(`${this.ADMIN_URL}/users`, userData, {
+//     headers: this.getAuthHeaders(),
+//   });
+// }
 }

@@ -1,6 +1,8 @@
 <div class="navbar">
   <div class="logo">
-    <p>Music Therapy</p>
+    <li>
+      <a routerLink="/activity" routerLinkActive="active"> Music Therapy </a>
+    </li>
   </div>
   <nav class="menu">
     <ul>
@@ -16,14 +18,10 @@
       </li>
       <li>
         <a routerLink="/admin/member-list" routerLinkActive="active">
-          <i class="fa-solid fa-users"></i>สมาชิกทั้งหมด
+          <i class="fa-solid fa-users"></i> สมาชิกทั้งหมด
         </a>
       </li>
-       <li>
-        <a routerLink="/activity" routerLinkActive="active">
-          <i class="fa-solid fa-globe"></i> เว็บสาธารณะ
-        </a>
-      </li>
+  
       <li>
         <a (click)="onLogout($event)" style="cursor: pointer">
           <i class="fa-solid fa-arrow-right-from-bracket"></i> ออกจากระบบ

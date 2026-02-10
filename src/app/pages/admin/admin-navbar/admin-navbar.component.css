@@ -1,94 +1,67 @@
-
 .navbar {
-  width: 240px;
+  width: 280px; /* กำหนดความกว้างคงที่ */
   height: 100vh;
   background-color: #ffffff;
   border-right: 1px solid #e0e6ed;
   display: flex;
   flex-direction: column;
   padding: 24px 16px;
-  position: fixed;
+  position: fixed; /* ล็อคไว้ด้านซ้าย */
   left: 0;
   top: 0;
+  z-index: 1000;
+  box-sizing: border-box;
 }
 
-.logo {
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 32px;
-  
-}
-
-.logo p {
-  margin: 0;
-  font-size: 24px;
-  font-weight: bold;
-  color: black;
-}
-
-.menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.menu li {
-  margin-bottom: 16px; 
-}
-
-
+/* ส่วนอื่นๆ เหมือนเดิมที่คุณเขียนไว้ */
+.logo { padding: 20px; text-align: center; margin-bottom: 32px;list-style: none;  }
+.logo a { font-size: 24px; font-weight: bold; color: black; text-decoration: none; }
+.menu ul { list-style: none; padding: 0; margin: 0; }
+.menu li { margin-bottom: 12px; }
 .menu a {
   display: flex;
   align-items: center;
   padding: 12px 16px;
   text-decoration: none;
-  color: black; 
-  font-size: 0.95rem;
-  font-weight: 500;
-  border-radius: 10px;
-  transition: all 0.25s ease;
-}
-
-
-.menu a i {
-  width: 24px;
-  margin-right: 12px;
-  font-size: 1.1rem;
-  display: flex;
-  justify-content: center;
-}
-
-
-.menu a:hover {
-  background-color: rgba(0, 0, 0, 0.03);
   color: #4a5568;
+  border-radius: 10px;
+  transition: all 0.2s;
 }
-
 .menu a.active {
-  background-color: #ffffff;
-  color: #000000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background-color: #f8fafc;
+  color: #000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   font-weight: 600;
 }
 
-
-.menu li:last-child a {
-  margin-top: 20px;
-  color: black; 
+/* จัดการระยะห่างของไอคอนในเมนูปกติ */
+.menu a i {
+  width: 24px;         /* ล็อคความกว้างไอคอนให้เท่ากันทุกตัว */
+  margin-right: 16px;  /* เพิ่มระยะห่างจากตัวอักษร (ปรับเพิ่มจากเดิมที่อาจจะเป็น 12px) */
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.menu li:last-child a:hover {
-  background-color: rgba(0, 0, 0, 0.03);
-   color: #4a5568;
-}
-
+/* หากคุณมีการใช้ Pseudo-element (::after) ที่เป็นลูกศรในสถานะ active 
+   ให้ระวังเรื่องระยะห่างด้านท้ายด้วย */
 .menu a.active::after {
   content: '\f054'; 
   font-family: "Font Awesome 6 Free";
   font-weight: 900;
-  margin-left: auto;
+  margin-left: auto;   /* ดันลูกศรไปขวาสุด */
   font-size: 0.7rem;
   color: #adb5bd;
+}
+
+/* เพิ่มเติม: จัด Padding ของตัว link ใหม่ให้ดูโปร่งขึ้น */
+.menu a {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;  /* เพิ่ม padding ซ้าย-ขวา */
+  text-decoration: none;
+  color: #4a5568;
+  border-radius: 10px;
+  transition: all 0.25s ease;
 }

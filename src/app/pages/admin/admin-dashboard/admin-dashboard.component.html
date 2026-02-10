@@ -1,2 +1,73 @@
 <app-admin-navbar></app-admin-navbar>
-<p>admin-dashboard works!</p>
+
+<div class="admin-container">
+  <div class="admin-header">
+    <div class="header-content">
+      <h1>รายงานระบบ</h1>
+    </div>
+    <button class="btn-add-member" (click)="onAddMember()">
+      <i class="fa-solid fa-user-plus"></i> เพิ่มสมาชิก
+    </button>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card blue">
+      <span class="stat-label">ผู้ใช้งานทั้งหมด</span>
+      <span class="stat-value">{{ users.length }}</span>
+    </div>
+    <div class="stat-card green">
+      <span class="stat-label">กิจกรรมทั้งหมด</span>
+      <span class="stat-value">{{ activitiesCount }}</span>
+    </div>
+    <div class="stat-card orange">
+      <span class="stat-label">รอการตรวจสอบ</span>
+      <span class="stat-value">0</span>
+    </div>
+  </div>
+
+  <div class="charts-row">
+    <div class="chart-box">
+      <h3>สถิติการเข้าอ่านกิจกรรม</h3>
+      <div class="canvas-container">
+        <canvas #visitChart></canvas>
+      </div>
+    </div>
+    <div class="chart-box">
+      <h3>กิจกรรมยอดนิยม (รายการโปรด)</h3>
+      <div class="canvas-container">
+        <canvas #favoriteChart></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="data-section">
+    <div class="section-header">
+      <h2>รายชื่อผู้ใช้งานในระบบ</h2>
+    </div>
+
+    <div class="table-container">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>ชื่อผู้ใช้</th>
+            <th>อีเมล</th>
+            <th>สถานะ</th>
+            <th class="text-center">การจัดการ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>#{{ user.id }}</td>
+            <td class="font-bold">{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td><span class="status-pill">Active</span></td>
+            <td class="text-center">
+              <button class="btn-delete" (click)="onDeleteUser(user.id)">ลบผู้ใช้</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
