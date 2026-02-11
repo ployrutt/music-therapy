@@ -68,20 +68,6 @@
   <div class="member-extras" *ngIf="authService.getRole() === 'member'">
     <hr class="divider" />
     <div class="dashboard-grid">
-      <!-- <div class="data-column">
-        <h3><i class="fa-solid fa-clock-rotate-left"></i> ประวัติการเข้าชม</h3>
-        <div class="list-wrapper">
-          <div *ngIf="readHistory.length === 0" class="empty-text">ยังไม่มีประวัติการอ่าน</div>
-          <div class="list-item row-link" *ngFor="let item of readHistory" (click)="goToActivity(item.activity_id)">
-            <div class="info">
-              <span class="title">{{ item.activity?.title || item.title || "ไม่มีชื่อกิจกรรม" }}</span>
-              <small class="text-muted">อ่านล่าสุด: {{ item.read_at || item.created_at | date: "dd/MM/yyyy HH:mm" }}</small>
-            </div>
-            <i class="fa-solid fa-chevron-right arrow-icon"></i>
-          </div>
-        </div>
-      </div> -->
-
       <div class="data-column">
         <h3><i class="fa-solid fa-clock-rotate-left"></i> ประวัติการเข้าชม</h3>
         <div class="list-wrapper">
@@ -100,14 +86,13 @@
               }}</span>
 
               <div class="meta-info">
-                <span class="read-badge"
-                  >อ่านแล้ว {{ item.read_count }} ครั้ง</span
-                >
-
                 <small class="text-muted">
                   ล่าสุดเมื่อ:
                   {{ item.last_read_at | date: "dd/MM/yyyy HH:mm" }}
                 </small>
+                <span class="read-badge"
+                  >อ่านแล้ว {{ item.read_count }} ครั้ง</span
+                >
               </div>
             </div>
             <i class="fa-solid fa-chevron-right arrow-icon"></i>
@@ -130,7 +115,7 @@
               <span class="title">{{
                 fav.activity?.title || "ไม่มีชื่อกิจกรรม"
               }}</span>
-              <span class="read-action-text">คลิกเพื่ออ่านกิจกรรม</span>
+              <!-- <span class="read-action-text">คลิกเพื่ออ่านกิจกรรม</span> -->
             </div>
             <i class="fa-solid fa-chevron-right arrow-icon"></i>
           </div>

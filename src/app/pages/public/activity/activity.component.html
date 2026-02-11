@@ -80,11 +80,11 @@
           </div>
 
           <div class="tag-list">
-            <span class="tag" *ngFor="let goal of activity.selected_sub_goals">
+            <span class="tag-green" *ngFor="let goal of activity.selected_sub_goals">
               {{ goal.sub_goal_name }}
             </span>
             <span
-              class="tag"
+              class="tag-pink"
               *ngFor="let subcat of activity.selected_sub_categories"
             >
               {{ subcat.sub_category_name }}

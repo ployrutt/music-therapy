@@ -1,11 +1,7 @@
 <div class="container" *ngIf="activity">
   <div class="main-content">
     <div class="content-wrapper">
-
-        <button class="back-btn" (click)="goBack()">ย้อนกลับ</button>
-      
-       
-
+      <button class="back-btn" (click)="goBack()">ย้อนกลับ</button>
 
       <header class="activity-header">
         <h1 class="activity-title">{{ activity.title }}</h1>
@@ -16,12 +12,23 @@
         <div class="tag-row">
           <span
             class="badge goal-tag"
+            style="
+              background-color: white;
+              color: #0ec2a4;
+              border: 1px solid #0ec2a4;
+            "
             *ngFor="let goal of activity.selected_sub_goals"
           >
             {{ goal.sub_goal_name }}
           </span>
           <span
             class="badge cat-tag"
+            style="
+              background-color: white
+              ;
+              color: #f78cba;
+              border: 1px solid #f78cba;
+            "
             *ngFor="let cat of activity.selected_sub_categories"
           >
             {{ cat.sub_category_name }}

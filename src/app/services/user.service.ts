@@ -42,10 +42,14 @@ export class UserService {
       headers: this.getAuthHeaders(),
     });
   }
+  // แก้ไข: ใช้ /admin/roles สำหรับลบ
   deleteUser(userId: number): Observable<any> {
-    return this.http.delete<any>(`${this.ADMIN_URL}/users/${userId}`, {
-      headers: this.getAuthHeaders(),
-    });
+    return this.http.delete<any>(`${this.ADMIN_URL}/roles/${userId}`, { headers: this.getAuthHeaders() });
+  }
+
+  // เพิ่ม: ใช้ /admin/roles สำหรับเพิ่มสมาชิก
+  addMember(userData: any): Observable<any> {
+    return this.http.post<any>(`${this.ADMIN_URL}/roles`, userData, { headers: this.getAuthHeaders() });
   }
 
   getReadHistory(): Observable<any[]> {
@@ -60,10 +64,5 @@ export class UserService {
     });
   }
 
-  // เพิ่มเข้าไปใน UserService
-// addMember(userData: any): Observable<any> {
-//   return this.http.post<any>(`${this.ADMIN_URL}/users`, userData, {
-//     headers: this.getAuthHeaders(),
-//   });
-// }
+  
 }

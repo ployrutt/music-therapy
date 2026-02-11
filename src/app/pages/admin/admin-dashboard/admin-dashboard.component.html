@@ -1,73 +1,118 @@
-<app-admin-navbar></app-admin-navbar>
-
-<div class="admin-container">
-  <div class="admin-header">
-    <div class="header-content">
-      <h1>รายงานระบบ</h1>
-    </div>
-    <button class="btn-add-member" (click)="onAddMember()">
-      <i class="fa-solid fa-user-plus"></i> เพิ่มสมาชิก
-    </button>
+<div class="admin-list-container">
+  <div class="left">
+    <app-admin-navbar></app-admin-navbar>
   </div>
 
-  <div class="stats-grid">
-    <div class="stat-card blue">
-      <span class="stat-label">ผู้ใช้งานทั้งหมด</span>
-      <span class="stat-value">{{ users.length }}</span>
+  <div class="right">
+    <div class="table-header-wrapper">
+      <p class="title-text">รายงาน</p>
     </div>
-    <div class="stat-card green">
-      <span class="stat-label">กิจกรรมทั้งหมด</span>
-      <span class="stat-value">{{ activitiesCount }}</span>
-    </div>
-    <div class="stat-card orange">
-      <span class="stat-label">รอการตรวจสอบ</span>
-      <span class="stat-value">0</span>
-    </div>
-  </div>
 
-  <div class="charts-row">
-    <div class="chart-box">
-      <h3>สถิติการเข้าอ่านกิจกรรม</h3>
-      <div class="canvas-container">
-        <canvas #visitChart></canvas>
+    <div class="stats-grid-wrapper">
+      <div class="list-card">
+        <p class="title-text chart-title">ยอดการเข้าชมกิจกรรม</p>
+        <div class="chart-container">
+          <canvas #lineCanvas></canvas>
+        </div>
+      </div>
+
+      <div class="list-card">
+        <p class="title-text chart-title">กิจกรรมยอดนิยม</p>
+        <div class="chart-container">
+          <canvas #barCanvas></canvas>
+        </div>
       </div>
     </div>
-    <div class="chart-box">
-      <h3>กิจกรรมยอดนิยม (รายการโปรด)</h3>
-      <div class="canvas-container">
-        <canvas #favoriteChart></canvas>
+
+    <div class="list-card">
+      <div class="table-responsive">
+        <div class="table-header-wrapper" style="margin-bottom: 20px">
+          <p class="title-text" style="font-size: 1.2rem; border-left-color: #0ec2a4">
+            จัดการสมาชิก
+          </p>
+        </div>
+
+        <table class="activity-table">
+          <thead>
+            <tr>
+              <th>ชื่อ-นามสกุล</th>
+              <th>อีเมล</th>
+              <th>เบอร์โทรศัพท์</th>
+              <th>บทบาท</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td class="activity-title">
+                {{ user.first_name }} {{ user.last_name }}
+              </td>
+              <td style="color: #666">{{ user.email }}</td>
+              <td>{{ user.phone_number || "-" }}</td>
+              <td>
+                <span [ngClass]="{
+                  'badge-admin': user.role_name === 'admin',
+                  'badge-member': user.role_name === 'member'
+                }">
+                  {{ user.role_name }}
+                </span>
+              </td>
+  
+              <td class="action-buttons">
+                <button class="add-btn-inline" (click)="showModal = true" title="เพิ่มสมาชิกใหม่">
+                  <i class="fa-solid fa-user-plus"></i>
+                </button>
+                <button class="delete-btn" (click)="onDeleteUser(user.id)" title="ลบสมาชิก">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 
-  <div class="data-section">
-    <div class="section-header">
-      <h2>รายชื่อผู้ใช้งานในระบบ</h2>
-    </div>
+  <div class="modal-overlay" *ngIf="showModal" (click)="showModal = false">
+    <div class="list-card modal-card" (click)="$event.stopPropagation()">
+      <div class="table-header-wrapper">
+        <p class="title-text">ลงทะเบียนสมาชิก</p>
+      </div>
 
-    <div class="table-container">
-      <table class="admin-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>ชื่อผู้ใช้</th>
-            <th>อีเมล</th>
-            <th>สถานะ</th>
-            <th class="text-center">การจัดการ</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let user of users">
-            <td>#{{ user.id }}</td>
-            <td class="font-bold">{{ user.username }}</td>
-            <td>{{ user.email }}</td>
-            <td><span class="status-pill">Active</span></td>
-            <td class="text-center">
-              <button class="btn-delete" (click)="onDeleteUser(user.id)">ลบผู้ใช้</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <form [formGroup]="memberForm" (ngSubmit)="onSubmitMember()">
+        <div class="form-grid-layout">
+          <div class="input-group">
+            <label>ชื่อจริง</label>
+            <input type="text" formControlName="first_name" placeholder="Somsak" class="custom-input" />
+          </div>
+          <div class="input-group">
+            <label>นามสกุล</label>
+            <input type="text" formControlName="last_name" placeholder="Workhard" class="custom-input" />
+          </div>
+          <div class="input-group full-width">
+            <label>อีเมล</label>
+            <input type="email" formControlName="email" placeholder="somsak@example.com" class="custom-input" />
+          </div>
+          <div class="input-group full-width">
+            <label>รหัสผ่าน</label>
+            <input type="password" formControlName="password" placeholder="••••••••" class="custom-input" />
+          </div>
+          <div class="input-group">
+            <label>เบอร์โทรศัพท์</label>
+            <input type="text" formControlName="phone_number" placeholder="0812345678" class="custom-input" />
+          </div>
+          <div class="input-group">
+            <label>วันเกิด</label>
+            <input type="date" formControlName="date_of_birth" class="custom-input" />
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="cancel-btn" (click)="showModal = false">
+            ยกเลิก
+          </button>
+          <button type="submit" class="primary-pill-btn" [disabled]="memberForm.invalid">
+            บันทึกข้อมูล
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

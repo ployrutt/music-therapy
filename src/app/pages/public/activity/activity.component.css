@@ -207,14 +207,23 @@
   margin-top: 15px;
 }
 
-.tag {
-  background: #f0fbf9;
+.tag-green {
+  background: white;
   color: #0b8e78;
   padding: 5px 14px;
   border-radius: 15px; /* Pill shape */
   font-size: 12px;
   font-weight: 500;
-  border: 1px solid #d1efea;
+  border: 1px solid #0b8e78;
+}
+.tag-pink {
+  background: white;
+  color: #f78cba;
+  padding: 5px 14px;
+  border-radius: 15px; /* Pill shape */
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid #f78cba;
 }
 
 .card-footer {
