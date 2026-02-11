@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 
 export class AuthService {
-  private API_URL = 'http://localhost:8080/auth';
-  private PROFILE_API = 'http://localhost:8080/api/profile';
+  private API_URL = `${environment.apiUrl}/auth`;
+  private PROFILE_API = `${environment.apiUrl}/api/profile`;
 
   private token: string | null = null;
   private roleSubject = new BehaviorSubject<string | null>(null);

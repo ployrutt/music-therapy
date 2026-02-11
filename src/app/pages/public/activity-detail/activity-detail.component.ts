@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { ActivityService } from '../../../services/activity.service';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-activity-detail',
   imports: [CommonModule],
@@ -26,7 +27,7 @@ export class ActivityDetailComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.http.get(`http://localhost:8080/api/activities/${id}`).subscribe({
+      this.http.get(`${environment.apiUrl}/api/activities/${id}`).subscribe({
         next: (data) => {
           this.activity = data;
           console.log('Activity Data:', data); 

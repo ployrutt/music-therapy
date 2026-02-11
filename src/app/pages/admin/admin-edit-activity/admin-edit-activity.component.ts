@@ -11,6 +11,7 @@ import {
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminNavbarComponent } from '../admin-navbar/admin-navbar.component';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-admin-edit-activity',
@@ -26,7 +27,7 @@ export class AdminEditActivityComponent implements OnInit {
   activityId!: string | null;
   previews: { [key: string]: string } = {};
 
-  private readonly API_URL = 'http://localhost:8080';
+  private readonly API_URL = environment.apiUrl;
 
   constructor(
     private fb: FormBuilder,

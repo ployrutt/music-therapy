@@ -11,6 +11,7 @@ import {
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AdminNavbarComponent } from '../admin-navbar/admin-navbar.component';
 import { Router } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-admin-create-activity',
@@ -25,7 +26,7 @@ export class AdminCreateActivityComponent implements OnInit {
   masterCategories: any[] = [];
   previews: { [key: string]: string } = {};
 
-  private readonly API_URL = 'http://localhost:8080';
+  private readonly API_URL = environment.apiUrl;
 
   constructor(
     private fb: FormBuilder,

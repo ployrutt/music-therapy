@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-register',
   imports: [CommonModule, FormsModule],
@@ -23,7 +24,7 @@ export class RegisterComponent {
 
   previewImage: string | null = null;
 
-  private API_URL = 'http://localhost:8080/auth/register';
+  private API_URL = `${environment.apiUrl}/auth/register`;
 
   constructor(private http: HttpClient, private router: Router) {}
 
