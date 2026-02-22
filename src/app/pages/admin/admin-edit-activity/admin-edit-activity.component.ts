@@ -4,7 +4,6 @@ import {
   FormBuilder,
   FormGroup,
   FormArray,
-  FormControl,
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
@@ -12,6 +11,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminNavbarComponent } from '../admin-navbar/admin-navbar.component';
 import { environment } from '../../../../environments/environment';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-admin-edit-activity',
@@ -33,13 +33,13 @@ export class AdminEditActivityComponent implements OnInit {
     private fb: FormBuilder,
     private http: HttpClient,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
     this.initForm();
     this.activityId = this.route.snapshot.paramMap.get('id');
-    this.loadMasterData();
+    this.loadInitialData();
   }
 
   private initForm() {
@@ -56,16 +56,18 @@ export class AdminEditActivityComponent implements OnInit {
     });
   }
 
-  private loadMasterData() {
-    this.http
-      .get<any[]>(`${this.API_URL}/api/master-goals`)
-      .subscribe((res) => {
-        this.masterGoals = res;
+  private loadInitialData() {
+    forkJoin({
+      goals: this.http.get<any[]>(`${this.API_URL}/api/master-goals`),
+      categories: this.http.get<any[]>(`${this.API_URL}/api/master-categories`),
+    }).subscribe({
+      next: (res) => {
+        this.masterGoals = res.goals;
+        this.masterCategories = res.categories;
         this.loadActivityData();
-      });
-    this.http
-      .get<any[]>(`${this.API_URL}/api/master-categories`)
-      .subscribe((res) => (this.masterCategories = res));
+      },
+      error: (err) => console.error('Error loading master data', err),
+    });
   }
 
   private loadActivityData() {
@@ -84,23 +86,42 @@ export class AdminEditActivityComponent implements OnInit {
           song: data.song,
         });
 
-        if (data.cover_image) this.previews['cover_image'] = data.cover_image;
-        if (data.song_image) this.previews['song_image'] = data.song_image;
-        if (data.qr_1) this.previews['qr_1'] = data.qr_1;
-        if (data.qr_2) this.previews['qr_2'] = data.qr_2;
-
-        // จัดการ Checkbox เดิม
         const goalArray = this.activityForm.get(
-          'selected_sub_goals'
+          'selected_sub_goals',
         ) as FormArray;
-        data.sub_goals?.forEach((g: any) => goalArray.push(this.fb.control(g)));
+        goalArray.clear();
+
+        const rawGoals =
+          data.sub_goals ||
+          data.selected_sub_goals ||
+          data.activity_sub_goals ||
+          [];
+
+        rawGoals.forEach((g: any) => {
+          const goalObj =
+            typeof g === 'object' ? g : { sub_goal_id: Number(g) };
+          goalArray.push(this.fb.control(goalObj));
+        });
 
         const catArray = this.activityForm.get(
-          'selected_sub_categories'
+          'selected_sub_categories',
         ) as FormArray;
-        data.sub_categories?.forEach((c: any) =>
-          catArray.push(this.fb.control(c))
-        );
+        catArray.clear();
+
+        const rawCats =
+          data.sub_categories ||
+          data.selected_sub_categories ||
+          data.activity_sub_categories ||
+          [];
+
+        rawCats.forEach((c: any) => {
+          const catObj =
+            typeof c === 'object' ? c : { sub_category_id: Number(c) };
+          catArray.push(this.fb.control(catObj));
+        });
+
+        if (data.cover_image) this.previews['cover_image'] = data.cover_image;
+        if (data.song_image) this.previews['song_image'] = data.song_image;
       });
   }
 
@@ -125,10 +146,10 @@ export class AdminEditActivityComponent implements OnInit {
       title: formValues.title,
       goal_description: formValues.goal_description,
       sub_goal_ids: formValues.selected_sub_goals.map(
-        (g: any) => g.sub_goal_id
+        (g: any) => g.sub_goal_id,
       ),
       sub_category_ids: formValues.selected_sub_categories.map(
-        (c: any) => c.sub_category_id
+        (c: any) => c.sub_category_id,
       ),
       cover_image: this.previews['cover_image'] || '',
       equipment: formValues.equipment,
@@ -137,8 +158,6 @@ export class AdminEditActivityComponent implements OnInit {
       suggestion: formValues.suggestion,
       song: formValues.song,
       song_image: this.previews['song_image'] || '',
-      qr_1: this.previews['qr_1'] || '',
-      qr_2: this.previews['qr_2'] || '',
     };
 
     const token = localStorage.getItem('token');
@@ -157,11 +176,10 @@ export class AdminEditActivityComponent implements OnInit {
           this.router.navigate(['/admin/activity-list']);
         },
         error: (err) =>
-          alert('แก้ไขไม่สำเร็จ: ' + (err.error?.error || 'Bad Request')),
+          alert('แก้ไขไม่สำเร็จ: ' + (err.error?.error || 'Server Error')),
       });
   }
 
-  // Helper Methods
   isInvalid(controlName: string) {
     const control = this.activityForm.get(controlName);
     return !!(control && control.invalid && (control.dirty || control.touched));
@@ -172,7 +190,7 @@ export class AdminEditActivityComponent implements OnInit {
     if (event.target.checked) formArray.push(this.fb.control(subGoal));
     else {
       const index = formArray.controls.findIndex(
-        (x) => x.value.sub_goal_id === subGoal.sub_goal_id
+        (x) => x.value.sub_goal_id === subGoal.sub_goal_id,
       );
       if (index !== -1) formArray.removeAt(index);
     }
@@ -180,27 +198,33 @@ export class AdminEditActivityComponent implements OnInit {
 
   onSubCategoryChange(event: any, subCategory: any) {
     const formArray = this.activityForm.get(
-      'selected_sub_categories'
+      'selected_sub_categories',
     ) as FormArray;
     if (event.target.checked) formArray.push(this.fb.control(subCategory));
     else {
       const index = formArray.controls.findIndex(
-        (x) => x.value.sub_category_id === subCategory.sub_category_id
+        (x) => x.value.sub_category_id === subCategory.sub_category_id,
       );
       if (index !== -1) formArray.removeAt(index);
     }
   }
 
-  isSubGoalSelected(id: number) {
-    return (
-      this.activityForm.get('selected_sub_goals') as FormArray
-    ).value.some((x: any) => x.sub_goal_id === id);
+  isSubGoalSelected(id: number): boolean {
+    const formArray = this.activityForm.get('selected_sub_goals') as FormArray;
+    return formArray.value.some((x: any) => {
+      const currentId = x.sub_goal_id || x;
+      return Number(currentId) === Number(id);
+    });
   }
 
-  isSubCategorySelected(id: number) {
-    return (
-      this.activityForm.get('selected_sub_categories') as FormArray
-    ).value.some((x: any) => x.sub_category_id === id);
+  isSubCategorySelected(id: number): boolean {
+    const formArray = this.activityForm.get(
+      'selected_sub_categories',
+    ) as FormArray;
+    return formArray.value.some((x: any) => {
+      const currentId = x.sub_category_id || x;
+      return Number(currentId) === Number(id);
+    });
   }
 
   onCancel() {

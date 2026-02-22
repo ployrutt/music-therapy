@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
   <div class="left">
     <app-admin-navbar></app-admin-navbar>
   </div>
@@ -180,6 +180,223 @@
             ยกเลิก
           </button>
           <button type="submit" class="save-btn">บันทึก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> -->
+
+<div class="container">
+  <div class="left">
+    <app-admin-navbar></app-admin-navbar>
+  </div>
+
+  <div class="right">
+    <div class="form-card">
+      <header class="form-header">
+        <h1>แก้ไขกิจกรรม</h1>
+      </header>
+
+      <form
+        [formGroup]="activityForm"
+        (ngSubmit)="onSubmit()"
+        class="form-content"
+      >
+        <fieldset>
+          <legend>ข้อมูลพื้นฐาน</legend>
+          <div class="form-group">
+            <label>ชื่อกิจกรรม<span class="star">*</span></label>
+            <input
+              type="text"
+              formControlName="title"
+              [class.error-border]="isInvalid('title')"
+            />
+            <small class="error-msg" *ngIf="isInvalid('title')"
+              >กรุณากรอกชื่อกิจกรรม</small
+            >
+          </div>
+
+          <div class="grid-row">
+            <div class="form-group">
+              <label>รูปหน้าปกกิจกรรม</label>
+              <div class="file-upload-container">
+                <input
+                  type="file"
+                  (change)="onFileSelected($event, 'cover_image')"
+                  accept="image/*"
+                  id="cover_image_input"
+                  class="file-input-hidden"
+                />
+                <label
+                  for="cover_image_input"
+                  class="file-upload-label"
+                  *ngIf="!previews['cover_image']"
+                >
+                  <span class="upload-icon">🖼️</span>
+                  <span>คลิกเพื่ออัปโหลดรูปหน้าปกใหม่</span>
+                </label>
+                <div
+                  class="img-preview-container"
+                  *ngIf="previews['cover_image']"
+                >
+                  <img
+                    [src]="previews['cover_image']"
+                    class="img-preview-main"
+                  />
+                  <button
+                    type="button"
+                    class="remove-img"
+                    (click)="previews['cover_image'] = ''"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label
+                >รายละเอียดเป้าหมายกิจกรรม<span class="star">*</span></label
+              >
+              <textarea
+                formControlName="goal_description"
+                rows="5"
+                [class.error-border]="isInvalid('goal_description')"
+              ></textarea>
+              <small class="error-msg" *ngIf="isInvalid('goal_description')"
+                >กรุณากรอกรายละเอียดเป้าหมาย</small
+              >
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>เป้าหมายกิจกรรม</legend>
+          <div class="master-grid">
+            <div *ngFor="let goal of masterGoals" class="goal-group">
+              <h4>{{ goal.goal_name }}</h4>
+              <div class="scroll-area">
+                <label *ngFor="let sub of goal.sub_goals" class="check-label">
+                  <input
+                    type="checkbox"
+                    [checked]="isSubGoalSelected(sub.sub_goal_id)"
+                    (change)="onSubGoalChange($event, sub)"
+                  />
+                  {{ sub.sub_goal_name }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>หมวดหมู่กิจกรรม</legend>
+          <div class="master-grid">
+            <div *ngFor="let cat of masterCategories" class="goal-group">
+              <h4>{{ cat.category_name }}</h4>
+              <div class="scroll-area">
+                <label
+                  *ngFor="let subcat of cat.sub_categories"
+                  class="check-label"
+                >
+                  <input
+                    type="checkbox"
+                    [checked]="isSubCategorySelected(subcat.sub_category_id)"
+                    (change)="onSubCategoryChange($event, subcat)"
+                  />
+                  {{ subcat.sub_category_name }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>รายละเอียดกิจกรรม</legend>
+          <div class="form-group">
+            <label>อุปกรณ์<span class="star">*</span></label>
+            <textarea
+              formControlName="equipment"
+              rows="5"
+              [class.error-border]="isInvalid('equipment')"
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label>กระบวนการทำกิจกรรม<span class="star">*</span></label>
+            <textarea
+              formControlName="process"
+              rows="20"
+              [class.error-border]="isInvalid('process')"
+            ></textarea>
+          </div>
+          <div class="grid-row">
+            <div class="form-group">
+              <label>พฤติกรรมพึงสังเกต<span class="star">*</span></label>
+              <textarea
+                formControlName="observable_behavior"
+                rows="10"
+                [class.error-border]="isInvalid('observable_behavior')"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label>ข้อเสนอแนะเพิ่มเติม<span class="star">*</span></label>
+              <textarea
+                formControlName="suggestion"
+                rows="10"
+                [class.error-border]="isInvalid('suggestion')"
+              ></textarea>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>สื่อและรูปภาพประกอบ</legend>
+          <div class="grid-row">
+            <div class="form-group">
+              <label>ตัวอย่างสัญญาณดนตรีหรือเพลง</label>
+              <textarea formControlName="song" rows="10"></textarea>
+            </div>
+            <div class="form-group">
+              <label>รูปภาพประกอบ (เลือกไฟล์)</label>
+              <div class="file-upload-container">
+                <input
+                  type="file"
+                  (change)="onFileSelected($event, 'song_image')"
+                  accept="image/*"
+                  id="song_image_input"
+                  class="file-input-hidden"
+                />
+                <label
+                  for="song_image_input"
+                  class="file-upload-label sm"
+                  *ngIf="!previews['song_image']"
+                >
+                  <span class="upload-icon">🖼️</span>
+                  <span>คลิกเพื่อเลือกรูปประกอบ</span>
+                </label>
+                <div
+                  class="img-preview-container sm"
+                  *ngIf="previews['song_image']"
+                >
+                  <img [src]="previews['song_image']" class="img-preview-sm" />
+                  <button
+                    type="button"
+                    class="remove-img"
+                    (click)="previews['song_image'] = ''"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="form-footer">
+          <button type="button" class="cancel-btn" (click)="onCancel()">
+            ยกเลิก
+          </button>
+          <button type="submit" class="save-btn">บันทึกการแก้ไข</button>
         </div>
       </form>
     </div>

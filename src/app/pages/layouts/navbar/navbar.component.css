@@ -1,170 +1,335 @@
 
-main.content {
-  padding: 20px 20px; 
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, sans-serif;
 }
-
 
 header {
- padding: 0px 0px;
- margin: 0px 20px;
+  width: 100%;
+  background-color: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
-
 
 .navbar-content {
-  max-width: 100%;
+  width: 100%;
+  height: 80px;
+  padding: 0 0px; 
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
 }
-
 
 .logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: black; 
+  font-size: 22px;
+  font-weight: 700;
+  color: #0ec2a4;
+  margin: 0;
+  white-space: nowrap;
 }
 
-
-.nav-links {
+/* --- Navbar Content (ตัวคุมหลัก) --- */
+.navbar-content {
+  width: 100%;
+  height: 80px;
+  padding: 0 40px; /* ขอบซ้าย-ขวา 40px */
   display: flex;
   align-items: center;
-  gap:40px; 
+  justify-content: space-between;
+  box-sizing: border-box;
+  position: relative; /* เพิ่มเพื่อให้ .nav-links อ้างอิงจุดกึ่งกลางจากตรงนี้ */
+}
+
+/* --- Navigation Links (จัดให้อยู่กลางจอ) --- */
+.nav-links {
+  display: flex;
+  gap: 10px; /* ลด gap ลงหน่อยเพราะใช้ padding ที่ nav-item แทน */
+  
+  /* เทคนิคจัดให้อยู่กึ่งกลางหน้าจอ */
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .nav-item {
-  font-size: 16px;
-  color: black;
   text-decoration: none;
-  transition: color 0.2s;
+  color: #636e72;
+  font-size: 16px;
+  font-weight: 500;
+  transition: 0.3s ease;
+
+  padding: 10px 20px; 
+  border-radius: 50px;
+  display: inline-block;
 }
 
-.nav-item:hover {
-  color: #0ec2a4; 
+.active-nav-item, .nav-item:hover {
+  color: white;
+  background-color: #0ec2a4
+;
 }
 
-.active-nav-item{
-    background-color:#ddf5f0;
-    color: #0ec2a4;
-    border-radius: 50px;
-    padding: 10px 20px;
-    transition: color 0.2s;
-}
-
-
-.button{
+.button {
   display: flex;
   align-items: center;
-  gap: 20px; 
 }
 
-.login-btn{
-  font-size: 16px;
-  color: black;
+.desktop-auth {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.login-btn {
   text-decoration: none;
-  transition: color 0.2s;
-  background-color: #F2F2F2;
-  border-radius: 50px;
-  padding: 10px 20px;
-  transition: color 0.2s;
+  color: #0ec2a4;
+  font-weight: 600;
+  padding: 8px 16px;
+  font-size: 15px;
+  transition: 0.3s;
 }
 
-.login-btn:hover {
-  color: black;
-  background-color:#DADADA; 
-}
-
-.register-btn{
-  font-size: 16px;
-  color: white;
+.register-btn {
   text-decoration: none;
-  transition: color 0.2s;
   background-color: #0ec2a4;
-    border: solid 0.5px #0ec2a4;
-    border-radius: 50px;
-    padding: 10px 20px;
-    transition: color 0.2s;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 15px;
+  transition: 0.3s ease;
 }
 
 .register-btn:hover {
-  color:#6fd4be; 
+  background-color: #0ba38a;
+  transform: translateY(-1px);
 }
 
-
-
-/*---------------------------------------------*/
-
-
 .profile-wrapper {
-  position: relative; 
-  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .profile-img, .profile-icon {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  object-fit: cover;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #667a86;
-  color: white;
+  object-fit: cover;
+  transition: 0.2s;
 }
+
 
 .dropdown {
-    position: absolute;
-    top: 100%; 
-    right: 0;
-    background-color: #ffffff;
-    border: 1px solid #dee2e6;
-    border-radius: 10px;
-    margin-top: 10px;
-    min-width: 200px;
-    z-index: 1001;
+  position: absolute;
+  right: 0;
+  top: 55px;
+  background: #ffffff;
+  min-width: 200px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  border: 1px solid #f0f0f0;
+  animation: dropdownFade 0.2s ease-out;
 }
 
-.dropdown button,
-.dropdown a {
-    display: block;
-    width: 100%;
-    text-align: left;
-    padding: 18px 18px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    color:black;
-    text-decoration: none; 
-    transition: background-color 0.2s;
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.dropdown button:hover,
-.dropdown a:hover {
-    background-color: #f1f1f1;
-    border-radius: 10px 10px 0 0;
+.dropdown button {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  background: none;
+  text-align: left;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  border-radius: 10px;
+  color: #2d3436;
+}
+
+.dropdown button:hover {
+  background-color: #f0fdfa;
+  color: #0ec2a4;
 }
 
 .dropdown .logout {
-    color: black; 
-    font-weight: 500;
-    border-top: 1px solid #f1f1f1;
+  color: #e17055;
+  border-top: 1px solid #f5f5f5;
+  margin-top: 4px;
 }
 
-.dropdown .logout:hover {
-    background-color: #f1f1f1;
-    border-radius: 0 0 10px 10px;
+.menu-toggle {
+  display: none; 
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
 }
 
-.icon{
-  margin-right: 18px;
+.menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background-color: #0ec2a4;
+  border-radius: 3px;
 }
 
-.fa-circle-user{
-  font-size: 20px;
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  left: -320px;
+  width: 280px;
+  height: 100vh;
+  background: #ffffff;
+  z-index: 2000;
+  transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 24px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 5px 0 25px rgba(0,0,0,0.1);
 }
-.fa-gear{
-  font-size: 20px;
+
+.mobile-drawer.open {
+  left: 0;
 }
-.fa-arrow-right-from-bracket{
-  font-size: 20px;
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.drawer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.drawer-links a {
+  text-decoration: none;
+  color: #2d3436;
+  font-size: 18px;
+  padding: 12px 15px;
+  border-radius: 10px;
+}
+
+.drawer-buttons {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 20px;
+}
+
+.mobile-login-btn, .mobile-register-btn {
+  text-align: center;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.mobile-login-btn { color: #0ec2a4; border: 1.5px solid #0ec2a4; }
+.mobile-register-btn { background: #0ec2a4; color: #fff; }
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 1500;
+}
+
+.content {
+  padding: 20px;
+}
+
+.login-form {
+  max-width: 400px;
+  margin: 60px auto;
+  padding: 40px;
+  background: #ffffff;
+  border-radius: 24px;
+  box-sizing: border-box;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f1f1;
+}
+
+.login-form .title p {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #edf2f7;
+  font-size: 16px;
+  background: #f8fafb;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+input:focus {
+  outline: none;
+  border-color: #0ec2a4;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(14, 194, 164, 0.1);
+}
+
+.btn-login {
+  width: 100%;
+  padding: 16px;
+  background: #0ec2a4;
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .navbar-content {
+    padding: 0 20px; 
+    height: 65px;
+
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .nav-links, .desktop-auth {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .login-form {
+    max-width: 100%;
+    margin: 20px 0;
+    padding: 30px 20px;
+    border-radius: 0; 
+    box-shadow: none;
+  }
 }

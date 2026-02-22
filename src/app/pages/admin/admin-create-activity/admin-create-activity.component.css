@@ -1,202 +1,251 @@
-/* Layout หลัก ซ้าย-ขวา */
 .container {
   display: flex;
   min-height: 100vh;
-  background-color: #f8f9fa; /* พื้นหลังสีเทาอ่อนเพื่อให้ตัวการ์ดขาวเด่นขึ้น */
-  font-family: 'Kanit', sans-serif;
+  padding: 0;
+  margin: 0;
 }
 
 .left {
   width: 260px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 100;
   background: #ffffff;
-  border-right: 1.5px solid #e0e0e0;
+  border-right: 0.5px solid #e0e0e0;
 }
 
 .right {
-  flex: 1;
+  flex-grow: 1;
   padding: 40px;
-  overflow-y: auto;
+  background-color: #ffffff;
 }
 
-/* Card ของฟอร์ม */
 .form-card {
-  background: #ffffff;
-  border-radius: 24px; /* ความโค้งมนเท่ากับหน้า List */
-  border: 1.5px solid #e0e0e0; /* ขอบเทาอ่อน 1.5px */
-  padding: 40px;
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  background: #ffffff;
+  padding: 40px;
+  border: 0.5px solid #e0e0e0;
+  border-radius: 24px;
 }
 
 .form-header h1 {
-  color: #333;
-  font-size: 1.6rem;
-  margin-bottom: 2rem;
-  border-left: 5px solid #0ec2a4; /* แถบสีเขียว Teal ด้านหน้า */
-  padding-left: 15px;
+  font-size: 24px;
+  color: #1a1a1a;
+  padding-left: 20px;
+  margin-bottom: 30px;
+  font-weight: 600;
+  border-left: 5px solid #0ec2a4;
+  padding-bottom: 10px;
+  display: inline-block;
 }
 
-/* ตกแต่ง Fieldset และ Legend */
 fieldset {
-  border: 1px solid #f0f0f0;
-  border-radius: 16px;
-  padding: 25px;
+  border: 1px solid #e0e0e0;
+  border-radius: 14px;
+  padding: 24px;
   margin-bottom: 30px;
 }
 
 legend {
-  padding: 0 15px;
+  font-size: 16px;
   font-weight: 600;
   color: #0ec2a4;
-  font-size: 1rem;
-}
-
-/* การจัดวางช่องกรอกข้อมูล */
-.form-group {
-  margin-bottom: 1.5rem;
-  display: flex;
-  flex-direction: column;
+  padding: 0 10px;
 }
 
 .grid-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 label {
   font-weight: 500;
   margin-bottom: 8px;
   color: #444;
-  font-size: 0.95rem;
+  font-size: 14px;
 }
 
-.star {
-  color:red; /* สีชมพู Accent สำหรับดอกจัน */
-
-}
-
-/* Input และ Textarea */
-input[type="text"], 
+input[type="text"],
 textarea {
-  width: 100%;
-  padding: 12px 18px;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 12px; /* โค้งมนกำลังดีสำหรับช่องข้อมูลจำนวนมาก */
-  outline: none;
+  padding: 12px;
+  border: 0.5px solid #e0e0e0;
+  border-radius: 14px;
+  font-size: 14px;
+  background: #fff;
   transition: border-color 0.2s;
-  box-sizing: border-box;
-  font-family: inherit;
-  font-size: 0.95rem;
 }
 
-input:focus, 
+input:focus,
 textarea:focus {
+  outline: none;
   border-color: #0ec2a4;
-  background-color: #f9fdfd;
 }
 
-/* สถานะ Error */
 .error-border {
-  border-color: red !important;
+  border-color: #ff4d4f !important;
 }
 
 .error-msg {
-  color: red;
-  font-size: 0.85rem;
-  margin-top: 5px;
+  color: #ff4d4f;
+  font-size: 12px;
+  margin-top: 8px;
 }
 
-/* ส่วนของเป้าหมายและหมวดหมู่ (Checkbox Grid) */
+.star {
+  color: #ff4d4f;
+  margin-left: 2px;
+}
+
+.file-upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #e0e0e0;
+  border-radius: 14px;
+  padding: 40px;
+  background-color: #fafafa;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: #888;
+  height: 30px;
+}
+
+.file-upload-label:hover {
+  background-color: #f0fdfa;
+  border-color: #0ec2a4;
+  color: #0ec2a4;
+}
+
+.file-upload-label.sm {
+  padding: 20px;
+  height: 55px;
+}
+.img-preview-container {
+  position: relative;
+  border: 1px solid #e0e0e0;
+  border-radius: 14px;
+  overflow: hidden;
+  width: 100%;
+  height: 400px;
+}
+
+.img-preview-main,
+.img-preview-sm {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  display: block;
+}
+
+.remove-img {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.upload-icon {
+  margin-bottom: 4px;
+}
+
 .master-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
-}
-
-.goal-group h4 {
-  font-size: 0.95rem;
-  color: #666;
-  margin-bottom: 10px;
-  border-bottom: 1px dashed #eee;
-  padding-bottom: 5px;
+  font-size: 16px;
+  color: #444;
 }
 
 .scroll-area {
-  max-height: 150px;
+  max-height: 200px;
   overflow-y: auto;
-  padding: 10px;
-  background: #fafafa;
-  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  padding: 12px;
+  border-radius: 10px;
+  background: #fdfdfd;
 }
-/* ปรับแต่ง Scrollbar */
+
+
 .scroll-area::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 .scroll-area::-webkit-scrollbar-thumb {
   background: #0ec2a4;
   border-radius: 10px;
 }
+
 .check-label {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.9rem;
-  margin-bottom: 8px;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #555;
   cursor: pointer;
 }
 
-.check-label input[type="checkbox"] {
-  accent-color: #0ec2a4; /* เปลี่ยนสี Checkbox เป็นสีเขียว */
+input[type="checkbox"] {
+  accent-color: #0ec2a4;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
 }
-
-
-/* ปุ่มกดด้านล่าง (Footer) */
 .form-footer {
   display: flex;
   justify-content: flex-end;
-  gap: 15px;
+  gap: 12px;
+  padding-top: 30px;
   margin-top: 10px;
-  padding-top: 25px;
-  border-top: 1.5px solid #eee;
 }
 
-.save-btn, 
 .cancel-btn {
-  padding: 12px 35px;
-  border-radius: 50px; /* ทรง Pill เหมือน Login/Register */
-  font-weight: 600;
+  background: white;
+  border: 1px solid #e0e0e0;
+  color: #666;
+  padding: 10px 24px;
+  border-radius: 14px;
+  font-weight: 500;
   cursor: pointer;
-  border: none;
-  font-size: 1rem;
-  transition: all 0.3s;
 }
 
 .save-btn {
-  background-color: #0ec2a4;
+  background: #0ec2a4;
+  border: 1px solid #0ec2a4;
   color: white;
+  padding: 10px 24px;
+  border-radius: 14px;
+  font-weight: 500;
+  cursor: pointer;
 }
 
 .save-btn:hover {
-  background-color: #0bb095;
-  box-shadow: 0 4px 12px rgba(14, 194, 164, 0.2);
+  background: #0ca88f;
 }
 
-.cancel-btn {
-  background-color: #f5f5f5;
-  color: #666;
+.file-input-hidden {
+  display: none;
 }
 
-.cancel-btn:hover {
-  background-color: #e0e0e0;
-}
-
-/* ปรับแต่ง Scrollbar ของช่อง Checkbox */
-.scroll-area::-webkit-scrollbar {
-  width: 5px;
-}
-.scroll-area::-webkit-scrollbar-thumb {
-  background: #e0e0e0;
-  border-radius: 10px;
+@media (max-width: 992px) {
+  .grid-row {
+    grid-template-columns: 1fr;
+  }
 }

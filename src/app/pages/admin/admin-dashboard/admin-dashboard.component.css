@@ -1,225 +1,248 @@
-/* Layout หลัก */
+/* --- Layout หลักสไตล์ Minimal White --- */
 .admin-list-container {
   display: flex;
   min-height: 100vh;
-  background-color: #f4f7f9;
-  font-family: 'Sarabun', sans-serif;
-
+  background-color: #ffffff; /* พื้นหลังขาวสะอาด */
 }
 
 .left {
   width: 260px;
+  flex-shrink: 0;
+  border-right: 1px solid #e0e0e0;
   background: #ffffff;
-  border-right: 1px solid rgba(0,0,0,0.05);
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  z-index: 100;
 }
 
 .right {
-  flex: 1;
+  flex-grow: 1;
   padding: 40px;
+  max-width: calc(100% - 260px);
 }
 
-/* การ์ด */
-.list-card {
-  background: #ffffff;
-  border-radius: 28px;
-  padding: 30px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
-  margin-bottom: 30px;
-  border: 1px solid rgba(0,0,0,0.02);
-  
+/* --- Header Section --- */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
 }
 
-.title-text {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #2c3e50;
-  border-left: 6px solid #0ec2a4;
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+  border-left: 5px solid #0ec2a4; /* เส้นนำสายตาสีเขียวหลัก */
   padding-left: 15px;
   margin: 0;
 }
 
-.chart-title {
-  font-size: 1.1rem;
-  margin-bottom: 15px;
-}
-
+/* --- Grid สำหรับวาง Charts --- */
 .stats-grid-wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 30px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+/* --- Card Styling (ไม่มีเงา เน้นเส้นขอบเหมือนหน้าสร้างกิจกรรม) --- */
+.list-card {
+  background: #ffffff;
+  padding: 24px;
+  border: 1px solid #e0e0e0;
+  border-radius: 24px; /* ขอบมนขนาดใหญ่ */
+  box-sizing: border-box;
+}
+
+.chart-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #3a4549;
+  margin-top: 0;
+  margin-bottom: 20px;
 }
 
 .chart-container {
-  height: 300px;
   position: relative;
+  height: 280px;
+  width: 100%;
 }
 
-/* ตาราง */
+/* --- ปุ่มเพิ่มสมาชิกสไตล์ Pill --- */
+.add-btn-inline {
+  background-color: #0ec2a4;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 50px; /* ทรงมนยา */
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.add-btn-inline:hover {
+  background-color: #0ca88e;
+  opacity: 0.9;
+}
+
+/* --- Table Styling --- */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
 .activity-table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 12px;
+  border-collapse: collapse;
+  margin-top: 8px;
 }
 
 .activity-table th {
-  padding: 15px;
-  color: #94a3b8;
-  font-weight: 500;
   text-align: left;
+  padding: 16px;
+  background-color: #f9f9f9;
+  color: #3a4549;
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .activity-table td {
-  padding: 18px 15px;
-  background: #fff;
-  vertical-align: middle;
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+  color: #2d3436;
 }
 
 .activity-title {
   font-weight: 600;
-  color: #1e293b;
+  color: #1a1a1a;
 }
 
-/* ปุ่มจัดการในตาราง */
-.action-buttons {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-}
-
-.add-btn-inline, .delete-btn {
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.add-btn-inline { background: #f0fdfa; color: #0ec2a4; }
-.add-btn-inline:hover { background: #0ec2a4; color: white; transform: translateY(-3px); }
-
-.delete-btn { background: #fff1f2; color: #f78cba; }
-.delete-btn:hover { background: #f78cba; color: white; transform: translateY(-3px); }
-
-/* บทบาท Badge */
-.role-badge {
+/* Badge บทบาท */
+.badge-member {
+  background-color: #f0fdfa;
+  color: #0ec2a4;
   padding: 6px 14px;
-  border-radius: 12px;
-  font-size: 0.8rem;
+  border-radius: 50px;
+  font-size: 12px;
   font-weight: 600;
 }
-.user-type { background: rgba(14, 194, 164, 0.1); color: #0ec2a4; }
-.admin-type { background: rgba(247, 140, 186, 0.1); color: #f78cba; }
 
-/* MODAL DESIGN */
+/* ปุ่มลบ */
+.delete-btn {
+  background-color: #fff1f0;
+  color: #ff4d4f;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.delete-btn:hover {
+  background-color: #ff4d4f;
+  color: white;
+}
+
+/* --- Modal & Form Styling (เหมือนหน้า Login/สร้างกิจกรรม) --- */
 .modal-overlay {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(30, 41, 59, 0.5);
-  backdrop-filter: blur(8px);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3); /* ฉากหลังมืดลงเล็กน้อย */
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  animation: fadeIn 0.3s ease;
 }
 
 .modal-card {
-  width: 600px;
-  background: #ffffff;
-  border-radius: 35px;
-  padding: 45px;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.15);
-  animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  width: 100%;
+  max-width: 600px;
+  border: none; /* ใน modal ไม่ต้องมีขอบซ้ำซ้อนก็ได้ */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* เฉพาะ modal ที่ยอมให้มีเงาจางๆ เพื่อให้ลอยเด่น */
 }
 
-/* Form ใน Modal */
 .form-grid-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
-  margin-top: 25px;
+  margin-top: 20px;
 }
 
-.full-width { grid-column: span 2; }
+.full-width {
+  grid-column: span 2;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
 
 .input-group label {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #94a3b8;
-  margin-bottom: 8px;
-  margin-left: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3a4549;
+  margin-bottom: 6px;
 }
 
 .custom-input {
-  width: 100%;
-  padding: 16px 20px;
-  border: 2px solid #f1f5f9;
-  border-radius: 18px;
-  font-size: 1rem;
-  background: #f8fafc;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
+  height: 45px;
+  padding: 0 15px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 14px;
+  transition: border-color 0.2s;
 }
 
 .custom-input:focus {
-  border-color: #0ec2a4;
-  background: #ffffff;
-  box-shadow: 0 10px 20px rgba(14, 194, 164, 0.1);
   outline: none;
+  border-color: #0ec2a4;
 }
 
-/* ปุ่มใน Modal */
 .modal-actions {
-  margin-top: 40px;
   display: flex;
   justify-content: flex-end;
-  gap: 15px;
+  gap: 12px;
+  margin-top: 32px;
 }
 
 .cancel-btn {
-  background: #f1f5f9;
-  color: #64748b;
+  background: none;
   border: none;
-  padding: 14px 30px;
-  border-radius: 50px;
-  font-weight: 600;
+  color: #8e999d;
   cursor: pointer;
-  transition: 0.3s;
+  font-weight: 500;
 }
-
-.cancel-btn:hover { background: #e2e8f0; }
 
 .primary-pill-btn {
-  background: linear-gradient(135deg, #0ec2a4 0%);
+  background-color: #0ec2a4;
   color: white;
   border: none;
-  padding: 14px 40px;
+  padding: 10px 24px;
   border-radius: 50px;
   font-weight: 600;
   cursor: pointer;
-  /* box-shadow: 0 10px 25px rgba(14, 194, 164, 0.3); */
-  transition: all 0.3s ease;
 }
 
-.primary-pill-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  /* box-shadow: 0 15px 30px rgba(14, 194, 164, 0.4); */
+.primary-pill-btn:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
 }
 
-/* Animations */
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes modalPop { 
-  from { opacity: 0; transform: scale(0.9) translateY(30px); } 
-  to { opacity: 1; transform: scale(1) translateY(0); } 
+.star{
+  color: red;
+  
+}
+/* --- Responsive --- */
+@media (max-width: 1024px) {
+  .stats-grid-wrapper {
+    grid-template-columns: 1fr;
+  }
 }

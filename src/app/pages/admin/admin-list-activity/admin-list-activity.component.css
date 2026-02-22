@@ -1,130 +1,148 @@
-
 .admin-list-container {
   display: flex;
   min-height: 100vh;
-  background-color: #f8f9fa;
+  background-color: #ffffff;
+  padding: 0;
+  margin: 0;
 }
 
 .left {
   width: 260px;
-  background: #ffffff;
-  border-right: 1.5px solid #e0e0e0;
+  flex-shrink: 0;
   position: sticky;
   top: 0;
   height: 100vh;
+  z-index: 100;
+  background: #ffffff;
+  border-right: 0.5px solid #e0e0e0;
 }
 
 .right {
-  flex: 1;
+  flex-grow: 1;
   padding: 40px;
-  overflow-y: auto;
+  background-color: #ffffff;
 }
 
 .list-card {
+  max-width: 1100px;
+  margin: 0 auto;
   background: #ffffff;
-  border-radius: 24px;
-  border: 1.5px solid #e0e0e0;
   padding: 30px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  border: 0.5px solid #e0e0e0;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
 }
 
+/* Header ส่วนหัวตาราง */
 .table-header-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .title-text {
-  font-size: 1.5rem;
+  font-size: 22px;
   font-weight: 600;
-  color: #333;
+  color: #1a1a1a;
+  margin: 0;
   border-left: 5px solid #0ec2a4;
   padding-left: 15px;
-  margin: 0;
 }
 
-
+/* ปุ่มสร้างกิจกรรม */
 .primary-pill-btn {
   background-color: #0ec2a4;
   color: white;
   border: none;
-  padding: 10px 25px;
+  padding: 10px 24px;
   border-radius: 50px;
-  cursor: pointer;
   font-weight: 500;
-  font-family: inherit;
+  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 10px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(14, 194, 164, 0.2);
+  text-decoration: none;
 }
 
 .primary-pill-btn:hover {
-  background-color: #0bb095;
+  background-color: #0ca88f;
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(14, 194, 164, 0.3);
+  box-shadow: 0 5px 15px rgba(14, 194, 164, 0.3);
 }
 
-
+/* ตาราง */
 .activity-table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 10px;
 }
 
 .activity-table th {
-  padding: 18px 15px;
-  background-color: #f9fafb;
-  color: #666;
-  font-weight: 500;
-  border-bottom: 2px solid #eee;
   text-align: left;
-  font-size: 0.95rem;
+  padding: 15px;
+  background-color: #f9fbfb;
+  color: #666;
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 2px solid #eee;
 }
 
 .activity-table td {
   padding: 18px 15px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
   color: #444;
-  font-size: 0.95rem;
   vertical-align: middle;
 }
 
 .activity-title {
-  font-weight: 500;
-  color: #0ec2a4;
+  font-weight: 600;
+  color: #1a1a1a;
   width: 25%;
 }
 
 .activity-goal {
   color: #666;
-  max-width: 300px;
+  line-height: 1.5;
+  max-width: 400px;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; /* ตัดคำถ้าเป้าหมายยาวเกินไป */
 }
 
+.activity-date {
+  color: #888;
+  font-size: 13px;
+  width: 150px;
+}
+
+/* ปุ่มจัดการ (Edit/Delete) */
 .action-buttons {
   display: flex;
-  gap: 10px;
   justify-content: center;
+  gap: 10px;
 }
 
-.edit-btn, .delete-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+.edit-btn,
+.delete-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
   border: none;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   transition: all 0.2s;
+  font-size: 16px;
 }
 
 .edit-btn {
-  background-color: rgba(14, 194, 164, 0.1);
+  background-color: #f0fdfa;
   color: #0ec2a4;
 }
 
@@ -134,46 +152,39 @@
 }
 
 .delete-btn {
-  background-color: rgba(247, 140, 186, 0.1);
-  color: red;
+  background-color: #fff1f0;
+  color: #ff4d4f;
 }
 
 .delete-btn:hover {
-  background-color: red;
+  background-color: #ff4d4f;
   color: white;
 }
 
+/* แถวว่าง */
 .empty-state {
   text-align: center;
-  padding: 60px !important;
+  padding: 50px !important;
   color: #999;
 }
 
 .empty-state i {
-  font-size: 3rem;
+  font-size: 40px;
   margin-bottom: 15px;
   display: block;
 }
 
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #0ec2a4;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #0bb095;
-}
-
-
-.right {
-  scrollbar-width: thin;
-  scrollbar-color: #0ec2a4 #f1f1f1;
+/* Responsive */
+@media (max-width: 768px) {
+  .right {
+    padding: 20px;
+  }
+  .activity-goal {
+    display: none;
+  } /* ซ่อนเป้าหมายในมือถือเพื่อไม่ให้เบียด */
+  .table-header-wrapper {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
 }

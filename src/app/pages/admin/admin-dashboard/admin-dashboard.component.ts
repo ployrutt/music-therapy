@@ -18,14 +18,16 @@ Chart.register(...registerables);
 export class AdminDashboardComponent implements OnInit, AfterViewInit {
   @ViewChild('lineCanvas') lineCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('barCanvas') barCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('goalCanvas') goalCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('categoryCanvas') categoryCanvas!: ElementRef<HTMLCanvasElement>;
 
   users: any[] = [];
   activities: any[] = [];
   showModal = false;
   memberForm!: FormGroup;
   
-  lineChart: any;
-  barChart: any;
+  // Chart Instances
+  charts: Chart[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -38,7 +40,6 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     this.loadUsers();
   }
 
-  // ใช้ AfterViewInit เพื่อให้มั่นใจว่า Canvas พร้อมใช้งานก่อนวาดกราฟ
   ngAfterViewInit(): void {
     this.loadActivityData();
   }
@@ -56,32 +57,37 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   }
 
   loadUsers() {
-    this.userService.getAllUsers().subscribe(data => this.users = data);
+    this.userService.getAllUsers().subscribe(data => {
+      // กรองเฉพาะ Member เท่านั้น
+      this.users = data.filter((u: any) => u.role_name === 'member');
+    });
   }
 
   loadActivityData() {
     this.activityService.getAllActivities().subscribe({
       next: (data) => {
         this.activities = data;
-        // ใช้ setTimeout เพื่อรอให้ DOM อัปเดตข้อมูลจาก API ก่อนเริ่มวาดกราฟ
         setTimeout(() => this.initCharts(), 0);
       }
     });
   }
 
   initCharts() {
-    if (this.lineChart) this.lineChart.destroy();
-    if (this.barChart) this.barChart.destroy();
-    if (!this.lineCanvas || this.activities.length === 0) return;
+    // ล้างกราฟเก่าก่อนสร้างใหม่
+    this.charts.forEach(c => c.destroy());
+    this.charts = [];
 
-    // กราฟเส้น - ยอดการเข้าชม
-    this.lineChart = new Chart(this.lineCanvas.nativeElement, {
+    if (this.activities.length === 0) return;
+
+    // 1. กราฟเส้น: ยอดการเข้าชมแยกตามเดือน (ปีปัจจุบัน)
+    const monthData = this.calculateMonthlyViews();
+    this.charts.push(new Chart(this.lineCanvas.nativeElement, {
       type: 'line',
       data: {
-        labels: this.activities.slice(0, 7).map(a => a.title),
+        labels: monthData.labels,
         datasets: [{
-          label: 'ยอดการเข้าชม',
-          data: this.activities.slice(0, 7).map(a => a.view_count || 0),
+          label: 'ยอดเข้าชมรวม',
+          data: monthData.values,
           borderColor: '#0ec2a4',
           backgroundColor: 'rgba(14, 194, 164, 0.1)',
           fill: true,
@@ -89,34 +95,112 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
         }]
       },
       options: { responsive: true, maintainAspectRatio: false }
-    });
+    }));
 
-    // กราฟแท่ง - กิจกรรมยอดนิยม
+    // 2. กราฟแท่ง: กิจกรรมที่ถูกใจสูงสุด (Favorite)
     const topFavs = [...this.activities].sort((a,b) => (b.favorite_count || 0) - (a.favorite_count || 0)).slice(0, 5);
-    this.barChart = new Chart(this.barCanvas.nativeElement, {
+    this.charts.push(new Chart(this.barCanvas.nativeElement, {
       type: 'bar',
       data: {
         labels: topFavs.map(a => a.title),
         datasets: [{
-          label: 'รายการโปรด',
+          label: 'จำนวนรายการโปรด',
           data: topFavs.map(a => a.favorite_count || 0),
           backgroundColor: '#f78cba',
           borderRadius: 8
         }]
       },
       options: { responsive: true, maintainAspectRatio: false }
+    }));
+
+    // 3. กราฟเป้าหมายกิจกรรม (Goal Analysis) - Stacked Bar
+    const goalStats = this.aggregateMetadata('sub_goals', 'sub_goal_name');
+    this.charts.push(new Chart(this.goalCanvas.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: goalStats.labels,
+        datasets: [
+          { label: 'ยอดอ่าน', data: goalStats.views, backgroundColor: '#0ec2a4' },
+          { label: 'รายการโปรด', data: goalStats.favs, backgroundColor: '#4dbdff' }
+        ]
+      },
+      options: { 
+        indexAxis: 'y', 
+        responsive: true, 
+        maintainAspectRatio: false,
+        scales: { x: { stacked: true }, y: { stacked: true } }
+      }
+    }));
+
+    // 4. กราฟหมวดหมู่กิจกรรม (Category Analysis) - Doughnut
+    const catStats = this.aggregateMetadata('sub_categories', 'sub_category_name');
+    this.charts.push(new Chart(this.categoryCanvas.nativeElement, {
+      type: 'doughnut',
+      data: {
+        labels: catStats.labels,
+        datasets: [{
+          data: catStats.favs,
+          backgroundColor: ['#4dbdff', '#0ec2a4', '#f78cba', '#ffcd56', '#9966ff']
+        }]
+      },
+      options: { responsive: true, maintainAspectRatio: false }
+    }));
+  }
+
+  // Helper: คำนวณยอดเข้าชมแยกตามเดือน
+  private calculateMonthlyViews() {
+    const months = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+    const values = new Array(12).fill(0);
+    const currentYear = new Date().getFullYear();
+
+    this.activities.forEach(act => {
+      // ใช้ field updated_at หรือ created_at เป็นตัวอ้างอิงเวลา (ขึ้นอยู่กับข้อมูล API)
+      const date = new Date(act.updated_at);
+      if (date.getFullYear() === currentYear) {
+        values[date.getMonth()] += (act.view_count || 0);
+      }
     });
+
+    return { labels: months, values };
+  }
+
+  // Helper: สรุปข้อมูลตามเป้าหมายหรือหมวดหมู่
+  private aggregateMetadata(arrayKey: string, nameKey: string) {
+    const map = new Map<string, { views: number, favs: number }>();
+
+    this.activities.forEach(act => {
+      const items = act[arrayKey] || [];
+      items.forEach((item: any) => {
+        const name = item[nameKey];
+        const current = map.get(name) || { views: 0, favs: 0 };
+        map.set(name, {
+          views: current.views + (act.view_count || 0),
+          favs: current.favs + (act.favorite_count || 0)
+        });
+      });
+    });
+
+    const sorted = Array.from(map.entries()).sort((a,b) => b[1].favs - a[1].favs).slice(0, 5);
+    return {
+      labels: sorted.map(s => s[0]),
+      views: sorted.map(s => s[1].views),
+      favs: sorted.map(s => s[1].favs)
+    };
   }
 
   onDeleteUser(id: number) {
     if (confirm('ยืนยันการลบสมาชิก?')) {
-      this.userService.deleteUser(id).subscribe(() => this.loadUsers());
+      this.userService.deleteUser(id).subscribe(() => {
+        alert('ลบสำเร็จ');
+        this.loadUsers();
+      });
     }
   }
 
   onSubmitMember() {
     if (this.memberForm.valid) {
       this.userService.addMember(this.memberForm.value).subscribe(() => {
+        alert('บันทึกสำเร็จ');
         this.showModal = false;
         this.memberForm.reset({ role_id: 2 });
         this.loadUsers();
