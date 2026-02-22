@@ -11,17 +11,28 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
-# สั่ง Build ให้ได้ไฟล์ Static (จะได้โฟลเดอร์ dist/)
+# สั่ง Build โปรเจกต์
 RUN npx ng build --configuration production
 
 # ---- Production Stage (Nginx) ----
 FROM nginx:stable-alpine
-# ก๊อปปี้ไฟล์จากขั้นตอน build มาใส่ใน nginx 
-# (ตรวจสอบชื่อโฟลเดอร์ใน dist/ ให้ถูกต้องตามชื่อโปรเจกต์คุณ)
-# COPY --from=build /app/dist/music-therapy-frontend/browser /usr/share/nginx/html
-# COPY --from=build /app/dist/music-therapy /usr/share/nginx/html
-# เพิ่ม /browser ต่อท้าย path เดิม
+
+# 1. ลบไฟล์ขยะเดิมของ Nginx ออกก่อน
+RUN rm -rf /usr/share/nginx/html/*
+
+# 2. ก๊อปปี้ไฟล์จากขั้นตอน build (ใช้ /browser เพราะเป็นมาตรฐาน Angular รุ่นใหม่)
 COPY --from=build /app/dist/music-therapy/browser /usr/share/nginx/html
-# ก๊อปปี้ไฟล์คอนฟิก nginx (ถ้ามี) หรือใช้ค่าเริ่มต้น
+
+# 3. สร้างไฟล์ Config ของ Nginx ใหม่ เพื่อแก้ปัญหา 404 เวลา Refresh หน้าเว็บ
+# และช่วยให้มั่นใจว่า Nginx ฟังพอร์ต 80 จริงๆ
+RUN echo 'server { \
+    listen 80; \
+    location / { \
+        root /usr/share/nginx/html; \
+        index index.html index.htm; \
+        try_files $uri $uri/ /index.html; \
+    } \
+}' > /etc/nginx/conf.d/default.conf
+
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
