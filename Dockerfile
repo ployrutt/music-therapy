@@ -19,7 +19,9 @@ FROM nginx:stable-alpine
 # ก๊อปปี้ไฟล์จากขั้นตอน build มาใส่ใน nginx 
 # (ตรวจสอบชื่อโฟลเดอร์ใน dist/ ให้ถูกต้องตามชื่อโปรเจกต์คุณ)
 # COPY --from=build /app/dist/music-therapy-frontend/browser /usr/share/nginx/html
-COPY --from=build /app/dist/music-therapy /usr/share/nginx/html
+# COPY --from=build /app/dist/music-therapy /usr/share/nginx/html
+# เพิ่ม /browser ต่อท้าย path เดิม
+COPY --from=build /app/dist/music-therapy/browser /usr/share/nginx/html
 # ก๊อปปี้ไฟล์คอนฟิก nginx (ถ้ามี) หรือใช้ค่าเริ่มต้น
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
