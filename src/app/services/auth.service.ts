@@ -88,6 +88,19 @@ export class AuthService {
     return this.getRole() === 'admin';
   }
 
+  // ส่งอีเมลเพื่อขอ Reset Token
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post(`${this.API_URL}/forgot-password`, { email });
+  }
+
+  // ตั้งรหัสผ่านใหม่โดยใช้ Token ที่ได้รับ
+  resetPassword(token: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.API_URL}/reset-password`, { 
+      token: token, 
+      new_password: newPassword 
+    });
+  }
+
   logout() {
     this.token = null;
     this.roleSubject.next(null);

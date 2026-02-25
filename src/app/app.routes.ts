@@ -22,18 +22,16 @@ import { MemberProfileComponent } from './pages/member/member-profile/member-pro
 import { AdminNavbarComponent } from './pages/admin/admin-navbar/admin-navbar.component';
 import { AdminEditActivityComponent } from './pages/admin/admin-edit-activity/admin-edit-activity.component';
 import { ActivityDetailComponent } from './pages/public/activity-detail/activity-detail.component';
-
+import { ForgotPasswordComponent } from './pages/public/forgot-password/forgot-password.component';
+// import { ResetPasswordComponent } from './pages/public/reset-password/reset-password.component';
 
 export const routes: Routes = [
-
-
   {
     path: '',
     component: NavbarComponent,
     children: [
+      { path: '', component: ActivityComponent },
 
-      { path: '', component:ActivityComponent },  
-      
       { path: 'activity', component: ActivityComponent },
       { path: 'activity/:id', component: ActivityDetailComponent },
       { path: 'about-us', component: AboutUsComponent },
@@ -46,8 +44,16 @@ export const routes: Routes = [
       {
         path: 'register',
         component: RegisterComponent,
-      }
-    ]
+      },
+      {
+        path: 'forgot-password',
+        component: ForgotPasswordComponent,
+      },
+      // {
+      //   path: 'reset-password',
+      //   component: ResetPasswordComponent,
+      // },
+    ],
   },
   {
     path: 'admin',
@@ -55,24 +61,24 @@ export const routes: Routes = [
     canActivateChild: [adminGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'admin-navbar', component: AdminNavbarComponent }, 
+      { path: 'admin-navbar', component: AdminNavbarComponent },
       { path: 'dashboard', component: AdminDashboardComponent },
       { path: 'activity-list', component: AdminListActivityComponent },
-       { path: 'member-list', component: AdminListMemberComponent },
+      { path: 'member-list', component: AdminListMemberComponent },
       { path: 'create-activity', component: AdminCreateActivityComponent },
-      {path:'edit-activity/:id', component:AdminEditActivityComponent},
-      { path: 'logout', component: AdminLogoutComponent }
-    ]
+      { path: 'edit-activity/:id', component: AdminEditActivityComponent },
+      { path: 'logout', component: AdminLogoutComponent },
+    ],
   },
   {
     path: 'member',
     component: NavbarComponent,
     canActivate: [memberGuard],
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, 
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: MemberDashboardComponent },
-      { path: 'profile', component: MemberProfileComponent }
-    ]
+      { path: 'profile', component: MemberProfileComponent },
+    ],
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '' },
 ];

@@ -1,81 +1,66 @@
-/* Container หลัก */
 .register-container {
-  max-width: 450px;
-  margin: 40px auto;
-  padding: 30px;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  font-family: 'Inter', 'Kanit', sans-serif;
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 25px;
-  color: #333;
-  font-weight: 600;
-}
-
-/* Form Group */
-.form-group {
-  margin-bottom: 20px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 40px;
+  border: 1px solid #e0e0e0;
 }
 
-label {
-  margin-bottom: 8px;
-  font-weight: 500;
-  color: #444;
-  font-size: 0.95rem;
+.register-container h2 {
+  text-align: center;
+  font-size: 24px;
+  color: #2d3436;
+  margin-bottom: 20px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2d3436;
 }
 
 .star {
-  color: #ff4d4f;
+  color: #ff4757;
   margin-left: 4px;
 }
 
-/* Input Fields */
 input {
   width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  padding: 12px 16px;
+  border: 2px solid #edf2f7;
+  border-radius: 12px;
+  font-size: 15px;
+  transition: all 0.2s ease;
   box-sizing: border-box;
 }
 
 input:focus {
-  outline: none;
   border-color: #0ec2a4;
-  box-shadow: 0 0 0 3px rgba(14, 194, 164, 0.1);
+  outline: none;
+  background: #f0fffb;
 }
 
-/* Error States (เหมือนหน้า Login) */
-.input-error {
-  border: 1px solid #ff4d4f !important;
+input.input-error {
+  border-color: #ff4757;
+  background-color: #fff1f0;
 }
 
-.error {
-  color: #ff4d4f;
-  font-size: 0.85rem;
-  margin-top: 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.error.center {
-  text-align: center;
-  justify-content: center;
-  background-color: #fff2f0;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ffccc7;
-}
-
-/* Password Visibility Toggle */
 .password-wrapper {
   position: relative;
   display: flex;
@@ -84,49 +69,48 @@ input:focus {
 
 .password-wrapper i {
   position: absolute;
-  right: 15px;
+  right: 16px;
+  color: #a4b0be;
   cursor: pointer;
-  color: #888;
-  transition: color 0.2s;
-  z-index: 10;
+  padding: 5px;
 }
 
-.password-wrapper i:hover {
-  color: #0ec2a4;
+.error {
+  color: #ff4757;
+  font-size: 12px;
+  margin-top: 4px;
 }
 
-/* Submit Button */
+.error.center {
+  text-align: center;
+}
+
 .btn-submit {
   width: 100%;
-  padding: 13px;
+  padding: 14px;
   background-color: #0ec2a4;
-  color: #fff;
+  color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: 12px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
+  transition: background 0.3s;
   margin-top: 10px;
-  transition: background-color 0.3s;
 }
 
 .btn-submit:hover {
-  background-color: #0a9d85;
+  background-color: #0ba38a;
 }
 
-.btn-submit:active {
-  transform: translateY(1px);
-}
-
-/* Links */
 .link {
-  margin-top: 20px;
-  font-size: 0.9rem;
-  color: #666;
+  font-size: 14px;
+  color: #636e72;
 }
 
 .link.center {
   text-align: center;
+  margin-top: 10px;
 }
 
 .link a {
@@ -135,6 +119,36 @@ input:focus {
   font-weight: 600;
 }
 
-.link a:hover {
-  text-decoration: underline;
+@media screen and (max-width: 1024px) {
+  .register-container {
+    max-width: 450px;
+    margin: 40px auto;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .register-container {
+    max-width: 90%;
+    margin: 20px auto;
+    padding: 25px 20px;
+    border-radius: 15px;
+  }
+
+  .register-container h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+
+  input {
+    padding: 14px;
+    font-size: 16px;
+  }
+
+  .btn-submit {
+    padding: 16px;
+  }
+
+  .form-group {
+    gap: 4px;
+  }
 }

@@ -29,7 +29,6 @@
         >
           ทั้งหมด
         </button>
-
         <button
           *ngFor="let cat of categories"
           class="cat-item"
@@ -50,6 +49,7 @@
       <article
         class="activity-card"
         *ngFor="let activity of filteredActivities"
+        (click)="onReadActivity(activity)"
       >
         <div class="image-container">
           <img
@@ -57,7 +57,6 @@
             [src]="activity.cover_image"
             alt="Activity Image"
           />
-
           <ng-template #noImage>
             <div class="no-image-placeholder">
               <i class="fa-solid fa-image"></i>
@@ -79,9 +78,7 @@
             ></i>
           </button>
 
-          <button class="read-more-btn" (click)="onReadActivity(activity)">
-            อ่านต่อ
-          </button>
+          <button class="read-more-btn">อ่านต่อ</button>
         </div>
 
         <div class="card-details">
@@ -99,7 +96,6 @@
               (click)="
                 filterByTag(goal.sub_goal_name); $event.stopPropagation()
               "
-              style="cursor: pointer"
             >
               {{ goal.sub_goal_name }}
             </span>
@@ -110,16 +106,20 @@
               (click)="
                 filterByTag(subcat.sub_category_name); $event.stopPropagation()
               "
-              style="cursor: pointer"
             >
               {{ subcat.sub_category_name }}
             </span>
           </div>
 
+          <div class="mobile-read-more-hint">
+            อ่านรายละเอียดเพิ่มเติม <i class="fa-solid fa-chevron-right"></i>
+          </div>
+
           <footer class="card-footer">
-            <span class="post-date">
-              อัปเดตเมื่อ: {{ activity.updated_at | date: "d MMMM yyyy" }}
-            </span>
+            <span class="post-date"
+              >อัปเดตเมื่อ:
+              {{ activity.updated_at | date: "d MMMM yyyy" }}</span
+            >
           </footer>
         </div>
       </article>
