@@ -3,7 +3,7 @@
     <div class="header">
       <h1 class="main-title">กิจกรรมดนตรีบำบัด</h1>
       <p class="sub-title">
-        ค้นหากิจกรรมดนตรีบำบัดตามเป้าหมายและลักษณะของกิจกรรม
+        เลือกกิจกรรมดนตรีบำบัดตามเป้าหมายและลักษณะของกิจกรรมที่เหมาะกับพัฒนาการของเด็ก
       </p>
     </div>
 
@@ -22,6 +22,14 @@
 
     <div class="category-container">
       <div class="category-grid">
+        <button
+          class="cat-item"
+          [class.active]="selectedCategory === 'ทั้งหมด'"
+          (click)="selectCategory('ทั้งหมด')"
+        >
+          ทั้งหมด
+        </button>
+
         <button
           *ngFor="let cat of categories"
           class="cat-item"
@@ -45,11 +53,16 @@
       >
         <div class="image-container">
           <img
-            [src]="
-              activity.cover_image || 'https://via.placeholder.com/400x250'
-            "
+            *ngIf="activity.cover_image; else noImage"
+            [src]="activity.cover_image"
             alt="Activity Image"
           />
+
+          <ng-template #noImage>
+            <div class="no-image-placeholder">
+              <i class="fa-solid fa-image"></i>
+            </div>
+          </ng-template>
 
           <button
             *ngIf="authService.isLoggedIn() && isMember()"
@@ -80,12 +93,24 @@
           </div>
 
           <div class="tag-list">
-            <span class="tag-green" *ngFor="let goal of activity.selected_sub_goals">
+            <span
+              class="tag-green"
+              *ngFor="let goal of activity.selected_sub_goals"
+              (click)="
+                filterByTag(goal.sub_goal_name); $event.stopPropagation()
+              "
+              style="cursor: pointer"
+            >
               {{ goal.sub_goal_name }}
             </span>
+
             <span
               class="tag-pink"
               *ngFor="let subcat of activity.selected_sub_categories"
+              (click)="
+                filterByTag(subcat.sub_category_name); $event.stopPropagation()
+              "
+              style="cursor: pointer"
             >
               {{ subcat.sub_category_name }}
             </span>

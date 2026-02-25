@@ -1,96 +1,140 @@
-/* ใช้สไตล์เดียวกับ .login-form */
+/* Container หลัก */
 .register-container {
-  background-color: #ffffff;
-  padding: 40px;
-  border-radius: 24px; /* ความโค้งมนของกรอบฟอร์ม */
-  max-width: 450px;    /* ขยายความกว้างเล็กน้อยเพื่อให้รองรับฟิลด์ที่เยอะขึ้น */
-  margin: 2rem auto;
-  border: 1.5px solid #e0e0e0; /* ขอบเทาอ่อนตามที่ต้องการ */
-  font-family: 'Kanit', sans-serif;
+  max-width: 450px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  font-family: 'Inter', 'Kanit', sans-serif;
 }
 
 h2 {
   text-align: center;
+  margin-bottom: 25px;
   color: #333;
-  margin-bottom: 2rem;
   font-weight: 600;
 }
 
+/* Form Group */
 .form-group {
-  margin-bottom: 1.2rem;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
 }
 
 label {
-  color: #333;
+  margin-bottom: 8px;
   font-weight: 500;
-  margin-bottom: 0.5rem;
+  color: #444;
   font-size: 0.95rem;
-  padding-left: 10px; /* ขยับ label ให้ตรงกับแนวข้อความใน input โค้ง */
 }
 
-/* ช่องกรอกข้อมูลทรงมน (Pill Shape) */
+.star {
+  color: #ff4d4f;
+  margin-left: 4px;
+}
+
+/* Input Fields */
 input {
   width: 100%;
-  padding: 12px 20px;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 50px; /* ความโค้งมน 50px เหมือน Login */
-  outline: none;
-  transition: all 0.2s;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
   box-sizing: border-box;
-  font-size: 0.95rem;
 }
 
 input:focus {
+  outline: none;
   border-color: #0ec2a4;
-  background-color: #f9fdfd; /* เพิ่มไฮไลท์พื้นหลังเล็กน้อยเวลาพิมพ์ */
+  box-shadow: 0 0 0 3px rgba(14, 194, 164, 0.1);
 }
 
-/* ปรับแต่งพิเศษสำหรับ Input ประเภท Date */
-input[type="date"] {
+/* Error States (เหมือนหน้า Login) */
+.input-error {
+  border: 1px solid #ff4d4f !important;
+}
+
+.error {
+  color: #ff4d4f;
+  font-size: 0.85rem;
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.error.center {
+  text-align: center;
+  justify-content: center;
+  background-color: #fff2f0;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ffccc7;
+}
+
+/* Password Visibility Toggle */
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper i {
+  position: absolute;
+  right: 15px;
   cursor: pointer;
-  color: #666;
+  color: #888;
+  transition: color 0.2s;
+  z-index: 10;
 }
 
-/* ปุ่มสมัครสมาชิกทรงมน */
+.password-wrapper i:hover {
+  color: #0ec2a4;
+}
+
+/* Submit Button */
 .btn-submit {
   width: 100%;
+  padding: 13px;
   background-color: #0ec2a4;
-  color: #ffffff;
+  color: #fff;
   border: none;
-  padding: 14px;
-  border-radius: 50px; /* ความโค้งมน 50px เหมือนปุ่ม Login */
+  border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.1s;
-  margin: 1.5rem 0 0.5rem;
+  margin-top: 10px;
+  transition: background-color 0.3s;
 }
 
 .btn-submit:hover {
-  background-color: #0bb095;
+  background-color: #0a9d85;
 }
 
 .btn-submit:active {
-  transform: scale(0.98); /* เอฟเฟกต์ยุบตัวเล็กน้อยเมื่อกด */
+  transform: translateY(1px);
 }
 
-/* ส่วนของ Preview รูปภาพ (ถ้ามี) */
-.preview {
-  margin-top: 10px;
+/* Links */
+.link {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.link.center {
   text-align: center;
 }
 
-.preview img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #0ec2a4;
-  padding: 3px;
+.link a {
+  color: #0ec2a4;
+  text-decoration: none;
+  font-weight: 600;
 }
 
-.star{
-  color: red;
+.link a:hover {
+  text-decoration: underline;
 }

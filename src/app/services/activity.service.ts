@@ -39,7 +39,6 @@ export class ActivityService {
     );
   }
 
-  // POST: บันทึกประวัติการอ่าน/นับจำนวนการอ่าน
   recordReadingHistory(id: number | string): Observable<any> {
     return this.http.post<any>(
       `${this.apiUrl}/${id}/read`,
@@ -47,4 +46,21 @@ export class ActivityService {
       { headers: this.getHeaders() },
     );
   }
+
+// 1. เพิ่มตัวแปร ADMIN_URL (ถ้ายังไม่มี) ให้ตรงกับ Router
+private ADMIN_URL = `${environment.apiUrl}/admin`;
+
+// 2. แก้ไขฟังก์ชัน getAdminDashboard ให้ตรงกับ Path ใน Go
+getAdminDashboard(startDate?: string, endDate?: string): Observable<any> {
+  let params = '';
+  if (startDate && endDate) {
+    params = `?start=${startDate}&end=${endDate}`;
+  }
+  
+  // แก้ไข Path เป็น /dashboard/stats ตาม admin.GET("/dashboard/stats") ใน Go
+  // และใช้ getHeaders() ตามชื่อฟังก์ชันเดิมที่มีอยู่ในไฟล์ของคุณ
+  return this.http.get<any>(`${this.ADMIN_URL}/dashboard/stats${params}`, {
+    headers: this.getHeaders() 
+  });
+}
 }

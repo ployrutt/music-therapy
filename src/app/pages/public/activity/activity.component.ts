@@ -33,7 +33,7 @@ export class ActivityComponent implements OnInit {
   constructor(
     private activityService: ActivityService,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -88,29 +88,25 @@ export class ActivityComponent implements OnInit {
   }
 
   onReadActivity(activity: any): void {
-  const id = activity.activity_id || activity.id;
+    const id = activity.activity_id || activity.id;
 
-  // เงื่อนไข: ถ้า Login และเป็น Member ให้ยิง API บันทึกประวัติ
-  if (this.authService.isLoggedIn() && this.isMember()) {
-    this.activityService.recordReadingHistory(id).subscribe({
-      next: () => {
-        console.log(`บันทึกประวัติการอ่านกิจกรรมที่ ${id} สำเร็จ`);
-        // หลังจากบันทึกสำเร็จ (หรือส่งคำขอแล้ว) ให้ไปที่หน้ารายละเอียด
-        this.router.navigate(['/activity', id]);
-      },
-      error: (err) => {
-        console.error('ไม่สามารถบันทึกประวัติการอ่านได้:', err);
-        // ถึงแม้บันทึกไม่สำเร็จ ก็ควรยอมให้ User ไปหน้าถัดไปได้
-        this.router.navigate(['/activity', id]);
-      }
-    });
-  } else {
-    // ถ้าไม่ใช่ Member หรือไม่ได้ Login ให้ไปหน้ารายละเอียดทันทีโดยไม่ยิง API
-    this.router.navigate(['/activity', id]);
+    if (this.authService.isLoggedIn() && this.isMember()) {
+      this.activityService.recordReadingHistory(id).subscribe({
+        next: () => {
+          console.log(`บันทึกประวัติการอ่านกิจกรรมที่ ${id} สำเร็จ`);
+
+          this.router.navigate(['/activity', id]);
+        },
+        error: (err) => {
+          console.error('ไม่สามารถบันทึกประวัติการอ่านได้:', err);
+
+          this.router.navigate(['/activity', id]);
+        },
+      });
+    } else {
+      this.router.navigate(['/activity', id]);
+    }
   }
-}
-
-  
 
   toggleFavorite(activity: any): void {
     if (!this.authService.isLoggedIn() || !this.isMember()) {
@@ -137,30 +133,57 @@ export class ActivityComponent implements OnInit {
 
   applyFilters(): void {
     this.filteredActivities = this.allActivities.filter((activity) => {
-      const title = (activity.title || '').toLowerCase();
-      const matchesSearch = title.includes(this.searchQuery.toLowerCase());
-      const allTags = [
-        ...(activity.selected_sub_goals?.map((g: any) => g.sub_goal_name) ||
-          []),
-        ...(activity.selected_sub_categories?.map(
-          (c: any) => c.sub_category_name,
-        ) || []),
-      ];
-      const matchesCategory =
-        this.selectedCategory === 'ทั้งหมด' ||
-        allTags.includes(this.selectedCategory);
-      return matchesSearch && matchesCategory;
+      const matchesSearch = activity.title
+        .toLowerCase()
+        .includes(this.searchQuery.toLowerCase());
+
+      if (this.selectedCategory === 'ทั้งหมด') {
+        return matchesSearch;
+      }
+
+      const matchesGoal = activity.selected_sub_goals?.some((subGoal: any) => {
+        if (this.selectedCategory === 'พัฒนาการทางสติปัญญา')
+          return subGoal.goal_id === 1;
+        if (this.selectedCategory === 'พัฒนาการทางร่างกาย')
+          return subGoal.goal_id === 2;
+        if (this.selectedCategory === 'พัฒนาการทางอารมณ์')
+          return subGoal.goal_id === 3;
+        if (this.selectedCategory === 'พัฒนาการทางสังคม')
+          return subGoal.goal_id === 4;
+        return false;
+      });
+
+      const matchesMainCat = activity.selected_sub_categories?.some(
+        (subCat: any) => {
+          if (this.selectedCategory === 'การร้องเพลง')
+            return subCat.category_id === 1;
+          if (this.selectedCategory === 'การฟัง')
+            return subCat.category_id === 2;
+          if (this.selectedCategory === 'การเคลื่อนไหว')
+            return subCat.category_id === 3;
+          if (this.selectedCategory === 'การบรรเลงเครื่องดนตรี')
+            return subCat.category_id === 4;
+          return false;
+        },
+      );
+
+      return matchesSearch && (matchesGoal || matchesMainCat);
     });
   }
-
   onSearch(event: any): void {
     this.searchQuery = event.target?.value || '';
     this.applyFilters();
   }
 
   selectCategory(category: string): void {
-    this.selectedCategory =
-      this.selectedCategory === category ? 'ทั้งหมด' : category;
+    this.selectedCategory = category;
+    this.applyFilters();
+  }
+
+  filterByTag(tagName: string): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    this.selectedCategory = tagName;
     this.applyFilters();
   }
 }

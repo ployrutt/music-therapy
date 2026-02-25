@@ -145,6 +145,14 @@
               class="custom-input"
             />
           </div>
+          <div class="input-group full-width">
+            <label>บทบาท (Role) <span class="star">*</span></label>
+            <select formControlName="role_id" class="custom-input">
+              <option [value]="null" disabled>-- เลือกบทบาท --</option>
+              <option [value]="2">Member (สมาชิกทั่วไป)</option>
+              <option [value]="1">Admin (ผู้ดูแลระบบ)</option>
+            </select>
+          </div>
         </div>
         <div class="modal-actions">
           <button type="button" class="cancel-btn" (click)="showModal = false">
