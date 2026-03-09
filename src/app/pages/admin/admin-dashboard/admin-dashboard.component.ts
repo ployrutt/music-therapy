@@ -1,3 +1,4 @@
+
 import {
   Component,
   OnInit,
@@ -33,7 +34,6 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   @ViewChild('categoryCanvas') categoryCanvas!: ElementRef<HTMLCanvasElement>;
 
   users: any[] = [];
-  activities: any[] = [];
   showModal = false;
   memberForm!: FormGroup;
   charts: Chart[] = [];
@@ -50,7 +50,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.loadActivityData();
+    this.loadDashboardData();
   }
 
   initForm() {
@@ -71,46 +71,49 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  loadActivityData() {
-    this.activityService.getAllActivities().subscribe((acts) => {
-      this.activities = acts;
-      this.activityService.getAdminDashboard().subscribe({
-        next: (data) => {
-          setTimeout(() => this.initCharts(data), 0);
-        },
-        error: (err) => {
-          console.error('ดึงข้อมูล Dashboard ล้มเหลว:', err);
-        }
-      });
+  loadDashboardData() {
+   
+    this.activityService.getAdminDashboard().subscribe({
+      next: (data) => {
+        setTimeout(() => this.initCharts(data), 0);
+      },
+      error: (err) => {
+        console.error('ดึงข้อมูล Dashboard ล้มเหลว:', err);
+      }
     });
   }
 
   initCharts(dashboardData: any) {
+    
     this.charts.forEach((c) => c.destroy());
     this.charts = [];
 
     if (!dashboardData) return;
 
-    const monthData = this.calculateMonthlyViews();
     this.charts.push(
       new Chart(this.lineCanvas.nativeElement, {
-        type: 'line',
+        type: 'bar', 
         data: {
-          labels: monthData.labels,
+          labels: dashboardData.top_read_activities.map((a: any) => a.title),
           datasets: [
             {
-              label: 'ยอดเข้าชมรวม',
-              data: monthData.values,
-              borderColor: '#0ec2a4',
-              backgroundColor: 'rgba(14, 194, 164, 0.1)',
-              fill: true,
-              tension: 0.4,
+              label: 'ยอดการเข้าชม/อ่าน (ครั้ง)',
+              data: dashboardData.top_read_activities.map((a: any) => a.total_read),
+              backgroundColor: '#0ec2a4',
+              borderRadius: 8,
             },
           ],
         },
-        options: { responsive: true, maintainAspectRatio: false },
-      }),
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: { beginAtZero: true }
+          }
+        },
+      })
     );
+
 
     this.charts.push(
       new Chart(this.barCanvas.nativeElement, {
@@ -119,58 +122,21 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
           labels: dashboardData.top_fav_activities.map((a: any) => a.title),
           datasets: [
             {
-              label: 'จำนวนรายการโปรด',
+              label: 'จำนวนรายการโปรด (ครั้ง)',
               data: dashboardData.top_fav_activities.map((a: any) => a.fav_count),
-              backgroundColor: '#f78cba',
+              backgroundColor: '#f78cba', 
               borderRadius: 8,
             },
           ],
         },
-        options: { responsive: true, maintainAspectRatio: false },
-      }),
-    );
-
-    this.charts.push(
-      new Chart(this.goalCanvas.nativeElement, {
-        type: 'bar',
-        data: {
-          labels: dashboardData.top_read_goals.map((g: any) => g.name),
-          datasets: [
-            {
-              label: 'ยอดการอ่าน',
-              data: dashboardData.top_read_goals.map((g: any) => g.total_read),
-              backgroundColor: '#0ec2a4',
-            },
-          ],
-        },
         options: {
-          indexAxis: 'y',
           responsive: true,
           maintainAspectRatio: false,
+          scales: {
+            y: { beginAtZero: true }
+          }
         },
-      }),
-    );
-
-    this.charts.push(
-      new Chart(this.categoryCanvas.nativeElement, {
-        type: 'doughnut',
-        data: {
-          labels: dashboardData.top_fav_categories.map((c: any) => c.name),
-          datasets: [
-            {
-              data: dashboardData.top_fav_categories.map((c: any) => c.count),
-              backgroundColor: [
-                '#4dbdff',
-                '#0ec2a4',
-                '#f78cba',
-                '#ffcd56',
-                '#9966ff',
-              ],
-            },
-          ],
-        },
-        options: { responsive: true, maintainAspectRatio: false },
-      }),
+      })
     );
   }
 
@@ -193,7 +159,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
       };
 
       this.userService.addMember(payload).subscribe({
-        next: (res) => {
+        next: () => {
           this.showModal = false;
           this.memberForm.reset({ role_id: 2 });
           alert('บันทึกข้อมูลสมาชิกใหม่เรียบร้อยแล้ว');
@@ -201,24 +167,9 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
         },
         error: (err) => {
           console.error('Add member error:', err);
-          alert('เกิดข้อผิดพลาด: ' + (err.error?.error || 'ข้อมูลไม่ถูกต้องหรือใส่ไม่ครบ'));
+          alert('เกิดข้อผิดพลาด: ' + (err.error?.error || 'ข้อมูลไม่ถูกต้อง'));
         },
       });
     }
-  }
-
-  private calculateMonthlyViews() {
-    const months = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
-    const values = new Array(12).fill(0);
-    const currentYear = new Date().getFullYear();
-
-    this.activities.forEach((act) => {
-      const date = new Date(act.updated_at || act.created_at);
-      if (date.getFullYear() === currentYear) {
-        values[date.getMonth()] += act.view_count || 0;
-      }
-    });
-
-    return { labels: months, values };
   }
 }

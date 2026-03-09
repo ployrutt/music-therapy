@@ -17,156 +17,146 @@
 
     <div class="stats-grid-wrapper">
       <div class="list-card">
-        <p class="title-text chart-title">
-          ยอดการเข้าชมกิจกรรมรายเดือน (ปีปัจจุบัน)
-        </p>
+        <p class="title-text chart-title">ยอดการเข้าชมกิจกรรม</p>
         <div class="chart-container"><canvas #lineCanvas></canvas></div>
       </div>
 
       <div class="list-card">
-        <p class="title-text chart-title">กิจกรรมยอดนิยม (ตามรายการโปรด)</p>
+        <p class="title-text chart-title">ยอดรายการโปรดกิจกรรม</p>
         <div class="chart-container"><canvas #barCanvas></canvas></div>
       </div>
 
       <div class="list-card">
-        <p class="title-text chart-title">
-          สถิติตามเป้าหมายกิจกรรม (ยอดอ่าน & โปรด)
-        </p>
-        <div class="chart-container"><canvas #goalCanvas></canvas></div>
-      </div>
+        <div class="table-responsive">
+          <div class="table-header-wrapper" style="margin-bottom: 20px">
+            <p class="title-text" style="font-size: 1.2rem">
+              จัดการสมาชิก ({{ users.length }})
+            </p>
+          </div>
 
-      <div class="list-card">
-        <p class="title-text chart-title">สัดส่วนหมวดหมู่ยอดนิยม</p>
-        <div class="chart-container"><canvas #categoryCanvas></canvas></div>
+          <table class="activity-table">
+            <thead>
+              <tr>
+                <th>ชื่อ-นามสกุล</th>
+                <th>อีเมล</th>
+                <th>เบอร์โทรศัพท์</th>
+                <th>บทบาท</th>
+                <th class="text-center">จัดการ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users">
+                <td class="activity-title">
+                  {{ user.first_name }} {{ user.last_name }}
+                </td>
+                <td style="color: #666">{{ user.email }}</td>
+                <td>{{ user.phone_number || "-" }}</td>
+                <td>
+                  <span class="badge-member">{{ user.role_name }}</span>
+                </td>
+                <td class="action-buttons">
+                  <button
+                    class="delete-btn"
+                    (click)="onDeleteUser(user.id)"
+                    title="ลบสมาชิก"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
-    <div class="list-card">
-      <div class="table-responsive">
-        <div class="table-header-wrapper" style="margin-bottom: 20px">
-          <p class="title-text" style="font-size: 1.2rem">
-            จัดการสมาชิก ({{ users.length }})
-          </p>
+    <div class="modal-overlay" *ngIf="showModal" (click)="showModal = false">
+      <div class="list-card modal-card" (click)="$event.stopPropagation()">
+        <div class="table-header-wrapper">
+          <p class="title-text">ลงทะเบียนสมาชิกใหม่</p>
         </div>
-
-        <table class="activity-table">
-          <thead>
-            <tr>
-              <th>ชื่อ-นามสกุล</th>
-              <th>อีเมล</th>
-              <th>เบอร์โทรศัพท์</th>
-              <th>บทบาท</th>
-              <th class="text-center">จัดการ</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let user of users">
-              <td class="activity-title">
-                {{ user.first_name }} {{ user.last_name }}
-              </td>
-              <td style="color: #666">{{ user.email }}</td>
-              <td>{{ user.phone_number || "-" }}</td>
-              <td>
-                <span class="badge-member">{{ user.role_name }}</span>
-              </td>
-              <td class="action-buttons">
-                <button
-                  class="delete-btn"
-                  (click)="onDeleteUser(user.id)"
-                  title="ลบสมาชิก"
-                >
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <form [formGroup]="memberForm" (ngSubmit)="onSubmitMember()">
+          <div class="form-grid-layout">
+            <div class="input-group">
+              <label>ชื่อจริง<span class="star">*</span></label>
+              <input
+                type="text"
+                formControlName="first_name"
+                class="custom-input"
+                placeholder="ชื่อ"
+              />
+            </div>
+            <div class="input-group">
+              <label>นามสกุล<span class="star">*</span></label>
+              <input
+                type="text"
+                formControlName="last_name"
+                class="custom-input"
+                placeholder="นามสกุล"
+              />
+            </div>
+            <div class="input-group full-width">
+              <label>อีเมล<span class="star">*</span></label>
+              <input
+                type="email"
+                formControlName="email"
+                class="custom-input"
+                placeholder="example@mail.com"
+              />
+            </div>
+            <div class="input-group full-width">
+              <label>รหัสผ่าน<span class="star">*</span></label>
+              <input
+                type="password"
+                formControlName="password"
+                class="custom-input"
+                placeholder="อย่างน้อย 6 ตัวอักษร"
+              />
+            </div>
+            <div class="input-group">
+              <label>เบอร์โทรศัพท์<span class="star">*</span></label>
+              <input
+                type="text"
+                formControlName="phone_number"
+                class="custom-input"
+                placeholder="08XXXXXXXX"
+              />
+            </div>
+            <div class="input-group">
+              <label>วันเกิด<span class="star">*</span></label>
+              <input
+                type="date"
+                formControlName="date_of_birth"
+                class="custom-input"
+              />
+            </div>
+            <div class="input-group full-width">
+              <label>บทบาท (Role) <span class="star">*</span></label>
+              <select formControlName="role_id" class="custom-input">
+                <option [value]="null" disabled>-- เลือกบทบาท --</option>
+                <option [value]="2">Member (สมาชิกทั่วไป)</option>
+                <option [value]="1">Admin (ผู้ดูแลระบบ)</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button
+              type="button"
+              class="cancel-btn"
+              (click)="showModal = false"
+            >
+              ยกเลิก
+            </button>
+            <button
+              type="submit"
+              class="primary-pill-btn"
+              [disabled]="memberForm.invalid"
+            >
+              บันทึกข้อมูล
+            </button>
+          </div>
+        </form>
       </div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" *ngIf="showModal" (click)="showModal = false">
-    <div class="list-card modal-card" (click)="$event.stopPropagation()">
-      <div class="table-header-wrapper">
-        <p class="title-text">ลงทะเบียนสมาชิกใหม่</p>
-      </div>
-      <form [formGroup]="memberForm" (ngSubmit)="onSubmitMember()">
-        <div class="form-grid-layout">
-          <div class="input-group">
-            <label>ชื่อจริง<span class="star">*</span></label>
-            <input
-              type="text"
-              formControlName="first_name"
-              class="custom-input"
-              placeholder="ชื่อ"
-            />
-          </div>
-          <div class="input-group">
-            <label>นามสกุล<span class="star">*</span></label>
-            <input
-              type="text"
-              formControlName="last_name"
-              class="custom-input"
-              placeholder="นามสกุล"
-            />
-          </div>
-          <div class="input-group full-width">
-            <label>อีเมล<span class="star">*</span></label>
-            <input
-              type="email"
-              formControlName="email"
-              class="custom-input"
-              placeholder="example@mail.com"
-            />
-          </div>
-          <div class="input-group full-width">
-            <label>รหัสผ่าน<span class="star">*</span></label>
-            <input
-              type="password"
-              formControlName="password"
-              class="custom-input"
-              placeholder="อย่างน้อย 6 ตัวอักษร"
-            />
-          </div>
-          <div class="input-group">
-            <label>เบอร์โทรศัพท์<span class="star">*</span></label>
-            <input
-              type="text"
-              formControlName="phone_number"
-              class="custom-input"
-              placeholder="08XXXXXXXX"
-            />
-          </div>
-          <div class="input-group">
-            <label>วันเกิด<span class="star">*</span></label>
-            <input
-              type="date"
-              formControlName="date_of_birth"
-              class="custom-input"
-            />
-          </div>
-          <div class="input-group full-width">
-            <label>บทบาท (Role) <span class="star">*</span></label>
-            <select formControlName="role_id" class="custom-input">
-              <option [value]="null" disabled>-- เลือกบทบาท --</option>
-              <option [value]="2">Member (สมาชิกทั่วไป)</option>
-              <option [value]="1">Admin (ผู้ดูแลระบบ)</option>
-            </select>
-          </div>
-        </div>
-        <div class="modal-actions">
-          <button type="button" class="cancel-btn" (click)="showModal = false">
-            ยกเลิก
-          </button>
-          <button
-            type="submit"
-            class="primary-pill-btn"
-            [disabled]="memberForm.invalid"
-          >
-            บันทึกข้อมูล
-          </button>
-        </div>
-      </form>
     </div>
   </div>
 </div>
